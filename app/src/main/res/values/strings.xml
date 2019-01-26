@@ -3,8 +3,8 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Name</string>
-    <string name="nav_header_subtitle">username@gmail.com    ></string>
+    <string name="nav_header_title">Chandan Naik</string>
+    <string name="nav_header_subtitle">chandannaik999@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_test">test</string>
@@ -23,4 +23,14 @@
     <string name="favorites">Favorites</string>
     <string name="your_donations">Your Donations</string>
     <string name="about">About</string>
+    <string name="demo_name">Chandan Naik</string>
+    <string name="demo_request">Request for Rs. 50000 to buy a new laptop for research purposes</string>
+    <string name="demo_place">Mangalore</string>
+    <string name="demo_percent_funded">Rs. 50000</string>
+    <string name="demo_no_of_backers">100 \nbackers</string>
+    <string name="demo_days_left">27 \ndays left</string>
+    <string name="demo_amount">Rs 50000/-\nrequested</string>
+    <string name="search">Search</string>
+    <string name="demo_rating">2</string>
+    <string name="bookmarks">Your bookmarks</string>
 </resources>

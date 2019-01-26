@@ -7,4 +7,6 @@
     <color name="colorNotSelected">#B2BEC8</color>
     <color name="colorSelected">@color/colorPrimary</color>
     <color name="colorText">#263238</color>
+    <color name="colorGrey">#e0e0e0</color>
+    <color name="colorYellow">#ffff00</color>
 </resources>

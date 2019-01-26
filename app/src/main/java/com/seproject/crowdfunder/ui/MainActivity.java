@@ -1,9 +1,8 @@
 package com.seproject.crowdfunder.ui;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,7 +11,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,41 +24,57 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import com.seproject.crowdfunder.BuildConfig;
 import com.seproject.crowdfunder.R;
+import com.seproject.crowdfunder.adapter.ViewPagerAdapter;
+import com.seproject.crowdfunder.models.RequestShortDetails;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ViewPager mViewPager;
-    private MainActivity.SectionsPagerAdapter mSectionsPagerAdapter;
+    private List<RequestShortDetails> requestShortDetails = new ArrayList<>();
+    ViewPagerAdapter viewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);*/
+
         setContentView(R.layout.activity_home);
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
 
-        mSectionsPagerAdapter = new MainActivity.SectionsPagerAdapter(getSupportFragmentManager());
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        ViewPager mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(viewPagerAdapter);
+
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager);
 
+        /*
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         int i;
         for(i = 0 ; i < tabLayout.getTabCount(); i++){
            tabLayout.getTabAt(i).setText(getResources().getStringArray(R.array.tab_name)[i]);
-        }
+        }*/
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +93,15 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+            }
+        });
+
+
     }
 
 
@@ -91,10 +117,21 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        return false;
-        //getMenuInflater().inflate(R.menu.main, menu);
-        //return true;
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+
+        SearchManager searchManager = (SearchManager) MainActivity.this.getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView searchView = null;
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -105,9 +142,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -120,17 +157,22 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
 
-        } else if (id == R.id.nav_favorites) {
+        } else if (id == R.id.nav_bookmarked) {
+            startActivity(new Intent(this, Bookmarked.class));
 
         }else if (id == R.id.nav_your_donations) {
+            startActivity(new Intent(this, YourDonationsActivity.class));
 
         }else if (id == R.id.nav_start_a_request) {
-
+            startActivity(new Intent(this, StartARequestActivity.class));
         } else if (id == R.id.nav_request_history) {
+            startActivity(new Intent(this, RequestHistoryActivity.class));
 
         } else if (id == R.id.nav_document_upload) {
 
         } else if (id == R.id.nav_share) {
+            Toast.makeText(this, "App should be uploaded to playstore to share it",Toast.LENGTH_LONG).show();
+            //share_the_app();
 
         } else if (id == R.id.nav_rate_us) {
 
@@ -143,6 +185,20 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void share_the_app() {
+        try {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My application name");
+            String shareMessage= "\nLet me recommend you this application\n\n";
+            shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n";
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+            startActivity(Intent.createChooser(shareIntent, "choose one"));
+        } catch(Exception e) {
+            //e.toString();
+        }
     }
 
     /**
@@ -173,9 +229,9 @@ public class MainActivity extends AppCompatActivity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_recommended, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getResources().getStringArray(R.array.tab_name)[(getArguments().getInt(ARG_SECTION_NUMBER))-1]);
+            View rootView = inflater.inflate(R.layout.fragment_list, container, false);
+            /*TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText(getResources().getStringArray(R.array.tab_name)[(getArguments().getInt(ARG_SECTION_NUMBER))-1]);*/
             return rootView;
         }
     }
@@ -203,4 +259,15 @@ public class MainActivity extends AppCompatActivity
             return 3;
         }
     }
+
+
+    public void prepareRequestList() {
+        int i = 0;
+        while (i < 10) {
+            requestShortDetails.add(new RequestShortDetails());
+            i++;
+        }
+    }
+
+
 }
