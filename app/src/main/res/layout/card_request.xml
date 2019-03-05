@@ -3,8 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="12dp"
+    android:layout_marginBottom="12dp"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
     app:cardCornerRadius="@dimen/edge_radius_card_default"
     app:cardElevation="@dimen/card_elevation"
+    android:id="@+id/card"
     app:cardBackgroundColor="@android:color/white">
 
     <LinearLayout
@@ -19,14 +24,14 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <!--Profile picture-->
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profilePic"
                     android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_height="45dp"
                     android:layout_margin="@dimen/activity_horizontal_margin"
                     android:src="@mipmap/ic_launcher" />
 
@@ -36,7 +41,7 @@
                     style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:progressTint="#ff8f00"
+                    android:progressTint="@color/colorYellow"
                     android:isIndicator="true"
                     android:max="5"
                     android:numStars="5"
@@ -45,7 +50,9 @@
                     android:rating="@string/demo_rating"
                     android:scaleX=".75"
                     android:scaleY=".75"
-                    android:stepSize="1" />
+                    android:stepSize="1"
+                    android:layout_marginBottom="5dp"/>
+
             </LinearLayout>
 
 
@@ -109,6 +116,7 @@
             android:layout_gravity="center_vertical"
             android:background="@color/colorGrey" />
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="70dp"
@@ -158,7 +166,7 @@
             android:layout_width="match_parent"
             android:layout_height="6dp"
             android:layout_gravity="bottom"
-            android:progressDrawable="@drawable/gradient_blue" />
+            android:progressDrawable="@drawable/custom_progress_bar" />
 
     </LinearLayout>
 

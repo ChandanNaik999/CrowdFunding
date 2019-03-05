@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Crowdfunder</string>
+    <string name="app_name">FunderHub</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -33,4 +33,44 @@
     <string name="search">Search</string>
     <string name="demo_rating">2</string>
     <string name="bookmarks">Your bookmarks</string>
+    <string name="demo_location">Mangalore, India</string>
+    <string name="explore">Explore</string>
+    <string name="your_requests">Your Requests</string>
+    <string name="notifications">Notifications</string>
+    <string name="logout">Logout</string>
+    <string name="de_activate_your_account">De-Activate your Account</string>
+    <string name="facebook_app_id">1671488156286128</string>
+    <string name="fb_login_protocol_scheme">fb1671488156286128</string>
+    <string name="title_activity_login">Sign in</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="sign_in_using_google">Google</string>
+    <string name="already_have_an_account_login_here">Already have an account? Login here</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="msg_box">Enter Password</string>
+    <string name="reenter">Please verify your password</string>
+    <string name="Continue">Continue</string>
+    <string name="ask">May I know the Reson for De-Acivating</string>
+    <string name="give_your_project_a_name">Give your project a name</string>
+    <string name="tell_your_story">Tell your story</string>
+    <string name="amount_required">Amount Required?</string>
+    <string name="what_is_the_deadline">What is the Deadline</string>
+    <string name="upload_your_documents">Upload your Documents</string>
+    <string name="proceed">PROCEED</string>
+    <string name="sigin_in_using_facebook">facebook</string>
+    <string name="heading">choose</string>
+    <string name="start_the_request">Start the request</string>
+    <string name="your_bookmarks">Your Bookmarks</string>
 </resources>

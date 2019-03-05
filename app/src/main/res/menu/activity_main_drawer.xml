@@ -6,22 +6,29 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_blue"
             android:title="@string/home" />
         <item
+            android:id="@+id/nav_explore"
+            android:icon="@drawable/ic_explore_blue"
+            android:title="@string/explore"/>
+        <item
             android:id="@+id/nav_bookmarked"
+            android:icon="@drawable/ic_bookmark_blue"
             android:title="@string/bookmarks" />
         <item
-            android:id="@+id/nav_your_donations"
-            android:title="@string/your_donations"/>
-        <item
             android:id="@+id/nav_start_a_request"
+            android:icon="@drawable/ic_start_request_blue"
             android:title="@string/start_a_request" />
+
         <item
-            android:id="@+id/nav_request_history"
-            android:title="@string/request_history" />
+            android:id="@+id/nav_distance"
+            android:icon="@drawable/ic_start_request_blue"
+            android:title="Distance" />
         <item
-            android:id="@+id/nav_document_upload"
-            android:title="@string/document_upload" />
+            android:id="@+id/nav_rate_user"
+            android:icon="@drawable/ic_rate_blue"
+            android:title="Rate the user" />
 
     </group>
 
@@ -29,15 +36,19 @@
         <menu>
             <item
                 android:id="@+id/nav_share"
+                android:icon="@drawable/ic_share_blue"
                 android:title="@string/share" />
             <item
                 android:id="@+id/nav_rate_us"
+                android:icon="@drawable/ic_rate_blue"
                 android:title="@string/rate_us" />
             <item
                 android:id="@+id/nav_contact_us"
+                android:icon="@drawable/ic_conrtact_blue"
                 android:title="@string/contact_us"/>
             <item
                 android:id="@+id/nav_about"
+                android:icon="@drawable/ic_about_blue"
                 android:title="@string/about"/>
         </menu>
     </item>

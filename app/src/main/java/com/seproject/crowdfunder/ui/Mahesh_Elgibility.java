@@ -1,0 +1,21 @@
+package com.seproject.crowdfunder.ui;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+
+import com.seproject.crowdfunder.R;
+
+public class Mahesh_Elgibility extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_mahesh__elgibility);
+    }
+
+    public void goToFillDetail(View view) {
+        startActivity(new Intent(this, FillDetailsPageForStartingReqest.class));
+    }
+}

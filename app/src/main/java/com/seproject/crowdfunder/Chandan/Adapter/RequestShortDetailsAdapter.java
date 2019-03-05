@@ -1,8 +1,10 @@
-package com.seproject.crowdfunder.adapter;
+package com.seproject.crowdfunder.Chandan.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 
 import com.seproject.crowdfunder.R;
 import com.seproject.crowdfunder.models.RequestShortDetails;
+import com.seproject.crowdfunder.ui.Distance;
 
 import java.util.List;
 
@@ -32,6 +35,7 @@ public class RequestShortDetailsAdapter extends RecyclerView.Adapter<RequestShor
         ImageView profilePic,bookmarked;
         RatingBar rating;
         ProgressBar percentFunded;
+        CardView cardView;
 
         MyViewHolder(View view){
             super(view);
@@ -45,8 +49,11 @@ public class RequestShortDetailsAdapter extends RecyclerView.Adapter<RequestShor
             profilePic =  view.findViewById(R.id.profilePic);
             bookmarked =  view.findViewById(R.id.bookmark);
             percentFunded = view.findViewById(R.id.percent_funded);
+            cardView = view.findViewById(R.id.card);
 
         }
+
+
 
 
     }
@@ -57,8 +64,6 @@ public class RequestShortDetailsAdapter extends RecyclerView.Adapter<RequestShor
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_request, parent, false);
 
-
-
         return new RequestShortDetailsAdapter.MyViewHolder(itemView);
     }
 
@@ -67,24 +72,43 @@ public class RequestShortDetailsAdapter extends RecyclerView.Adapter<RequestShor
     @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        RequestShortDetails request = requestList.get(position);
+        final RequestShortDetails request = requestList.get(position);
         holder.title.setText(request.getTitle());
         holder.name.setText(request.getName());
         holder.location.setText(request.getLocation());
         holder.profilePic.setImageResource(request.getProfilePic());
         holder.timeLeft.setText(String.format("%d\n days left", request.gettimeLeft()));
-        holder.percentFunded.setProgress(request.getpercentFunded()%100);
-        holder.backers.setText(String.format("%d\nbackers", request.getBackers()));
-        holder.amountRequested.setText(String.format("%d\n amount srequested", request.getamountRequested()));
-        holder.rating.setNumStars(request.getRating()%5);
+        holder.percentFunded.setProgress(request.getpercentFunded());
+        holder.backers.setText(String.format("%d\ndonors", request.getBackers()));
+        holder.amountRequested.setText(String.format("Rs.%d/-\n requested", request.getamountRequested()));
+        holder.rating.setRating(request.getRating());
         if (request.isBookmarked()) {
             holder.bookmarked.setImageResource(R.drawable.ic_bookmarked);
         } else {
             holder.bookmarked.setImageResource(R.drawable.ic_not_bookmarked);
         }
 
+        final ImageView bookmark = holder.bookmarked;
+        bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (request.isBookmarked()){
+                    bookmark.setImageResource(R.drawable.ic_not_bookmarked);
+                    request.setBookmarked(false);
+                }
+                else {
+                    bookmark.setImageResource(R.drawable.ic_bookmarked);
+                    request.setBookmarked(true);
+                }
+            }
+        });
 
-
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, Distance.class));
+            }
+        });
 
     }
     @Override

@@ -8,5 +8,12 @@
     <color name="colorSelected">@color/colorPrimary</color>
     <color name="colorText">#263238</color>
     <color name="colorGrey">#e0e0e0</color>
-    <color name="colorYellow">#ffff00</color>
+    <color name="colorYellow">#ff8f00</color>
+    <color name="colorLogoutRed">#EE0004</color>
+    <color name="colorDeepRed">#EE0004</color>
+    <color name="colorLightRed">#f44336</color>
+    <color name="google_blue">#4285F4</color>
+    <color name="colorBlueEdittext">#F5FAFF</color>
+    <color name = "colorBlueText">#29A4FE</color>
+    <color name="colorHint">#667EA9</color>
 </resources>

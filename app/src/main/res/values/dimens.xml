@@ -12,4 +12,6 @@
     <dimen name="title_textsize">16sp</dimen>
     <dimen name="max_title_height">60dp</dimen>
     <dimen name="demo_progress">67</dimen>
+    <dimen name="toolbar_text_size">20sp</dimen>
+    <dimen name="default_padding_edittext">8dp</dimen>
 </resources>

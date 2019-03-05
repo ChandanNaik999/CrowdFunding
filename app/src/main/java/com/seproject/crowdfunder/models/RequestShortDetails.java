@@ -4,22 +4,24 @@ import com.seproject.crowdfunder.R;
 
 public class RequestShortDetails
 {
-    String title;
-    int profilePic;
-    String name;
-    String location;
-    int rating;
-    boolean bookmarked;
-    int amountRequested;
-    int backers;
-    int timeLeft;
-    int percentFunded;
+    private String id;
+    private String title;
+    private int profilePic;
+    private String name;
+    private String location;
+    private int rating = 5;
+    private boolean bookmarked;
+    private int amountRequested;
+    private int backers;
+    private int timeLeft;
+    private int percentFunded;
 
     public RequestShortDetails() {
-        this("Request", R.mipmap.ic_launcher ,"Name" ,"Location" , 0,false ,0 , 0, 0, 0);
+        this("id","Request", R.mipmap.ic_launcher_round ,"Name" ,"Location" , 5,false ,0 , 0, 0, 66);
     }
 
-    public RequestShortDetails(String title , int profilePic, String name, String location, int rating, boolean bookmarked, int amountRequested, int backers, int timeLeft, int percentFunded) {
+    public RequestShortDetails(String id,String title , int profilePic, String name, String location, int rating, boolean bookmarked, int amountRequested, int backers, int timeLeft, int percentFunded) {
+        this.id = id;
         this.title = title;
         this.profilePic = profilePic;
         this.name = name;
@@ -110,5 +112,13 @@ public class RequestShortDetails
 
     public void setpercentFunded(int percentFunded) {
         this.percentFunded = percentFunded;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
