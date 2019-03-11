@@ -9,7 +9,7 @@ public class RequestShortDetails
     private int profilePic;
     private String name;
     private String location;
-    private int rating = 5;
+    private float rating = 5;
     private boolean bookmarked;
     private int amountRequested;
     private int backers;
@@ -20,7 +20,7 @@ public class RequestShortDetails
         this("id","Request", R.mipmap.ic_launcher_round ,"Name" ,"Location" , 5,false ,0 , 0, 0, 66);
     }
 
-    public RequestShortDetails(String id,String title , int profilePic, String name, String location, int rating, boolean bookmarked, int amountRequested, int backers, int timeLeft, int percentFunded) {
+    public RequestShortDetails(String id,String title , int profilePic, String name, String location, float rating, boolean bookmarked, int amountRequested, int backers, int timeLeft, int percentFunded) {
         this.id = id;
         this.title = title;
         this.profilePic = profilePic;
@@ -66,11 +66,11 @@ public class RequestShortDetails
         this.location = location;
     }
 
-    public int getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 

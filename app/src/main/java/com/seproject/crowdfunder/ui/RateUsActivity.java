@@ -1,4 +1,4 @@
-package com.seproject.crowdfunder.Adarsh.UI;
+package com.seproject.crowdfunder.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

@@ -20,10 +20,14 @@ public class Choose extends AppCompatActivity {
     public void Goto(View view) {
         RadioButton radio1 = findViewById(R.id.radioProject);
         RadioButton radio2 = findViewById(R.id.radioStudy);
-        if(radio1.isChecked())
+        if(radio1.isChecked()) {
             startActivity(new Intent(this, asd.class));
-        if(radio2.isChecked())
+            finish();
+        }
+        if(radio2.isChecked()) {
             startActivity(new Intent(this, bsd.class));
+            finish();
+        }
 
     }
 }

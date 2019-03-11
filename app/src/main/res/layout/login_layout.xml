@@ -55,6 +55,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
+                android:onClick="continue_to_main"
                 android:text="Login"/>
             <Button android:id="@+id/forgot_password"
                 android:layout_width="fill_parent"

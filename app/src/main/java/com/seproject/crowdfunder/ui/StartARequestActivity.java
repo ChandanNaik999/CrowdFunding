@@ -17,5 +17,6 @@ public class StartARequestActivity extends AppCompatActivity {
 
     public void StartAProject(View view) {
         startActivity(new Intent(this,Choose.class));
+        finish();
     }
 }

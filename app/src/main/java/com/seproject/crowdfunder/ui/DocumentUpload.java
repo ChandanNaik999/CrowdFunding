@@ -2,19 +2,16 @@ package com.seproject.crowdfunder.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,73 +21,51 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.seproject.crowdfunder.R;
-import com.seproject.crowdfunder.Utils.util;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+public class DocumentUpload extends AppCompatActivity {
 
-public class ProfileActivity extends AppCompatActivity {
+    private Button btnChoose, btnUpload, btnContinue;
+    private ImageView imageView;
 
-    public static final int PICK_IMAGE_REQUEST = 1;
     private Uri filePath;
+
+    private final int PICK_IMAGE_REQUEST = 71;
+
     FirebaseStorage storage;
     StorageReference storageReference;
-    ImageView profileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_document_upload);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        setDetails();
 
-    }
+        btnChoose = findViewById(R.id.btnChoose);
+        btnUpload = findViewById(R.id.btnUpload);
+        btnContinue = findViewById(R.id.btnContinue);
+        imageView = (ImageView) findViewById(R.id.imgView);
 
-    private void setDetails() {
-        TextView name = findViewById(R.id.name);
-        TextView email = findViewById(R.id.mail_id);
-        RatingBar rating = findViewById(R.id.rating);
-        profileImage = findViewById(R.id.profilePic);
 
-        name.setText(util.user.getName());
-        email.setText(util.user.getEmail());
-        rating.setRating(util.user.getRating());
-
-        getProfileImage();
-
-    }
-
-    private void getProfileImage() {
-        StorageReference islandRef = storageReference.child( util.user.getUid()+ "/profile.jpg");
-
-        final long ONE_MEGABYTE = 1024 * 1024;
-        islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+        btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(byte[] bytes) {
-                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                profileImage.setImageBitmap(bmp);
+            public void onClick(View v) {
+                chooseImage();
             }
-        }).addOnFailureListener(new OnFailureListener() {
+        });
+
+        btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFailure(@NonNull Exception exception) {
-                Toast.makeText(ProfileActivity.this, "no profile pic",Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                uploadImage();
             }
         });
     }
 
-    public void closeClicked(View view) {
-        super.onBackPressed();
-    }
-
-    public void EditProfileClicked(View view) {
-        //Edit profile code here
-
-    }
-
-    public void editProfilePic(View view) {
+    private void chooseImage() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -98,49 +73,52 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null )
         {
             filePath = data.getData();
             try {
-                ImageView image = findViewById(R.id.profilePic);
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                image.setImageBitmap(bitmap);
-                uploadProfileImage();
+                imageView.setImageBitmap(bitmap);
             }
             catch (IOException e)
             {
                 e.printStackTrace();
             }
         }
-
-
     }
 
-    private void uploadProfileImage() {
+    private void uploadImage() {
 
         if(filePath != null)
         {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
 
-            StorageReference ref = storageReference.child(util.user.getUid() + "/profile.jpg");
+                }
+            }, 3000);
+
+            StorageReference ref = storageReference.child("images/"+ UUID.randomUUID().toString());
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
-                            Toast.makeText(ProfileActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DocumentUpload.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                            btnContinue.setEnabled(true);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText(ProfileActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DocumentUpload.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -154,27 +132,11 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    public String getPathFromURI(Uri contentUri) {
-        String res = null;
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
-        if (cursor.moveToFirst()) {
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            res = cursor.getString(column_index);
-        }
-        cursor.close();
-        return res;
+
+    public void continueClicked(View view) {
+        //Adding request to main
+        finish();
     }
 
-    public void DeactivateAccountClicked(View view) {
-        startActivity(new Intent(this, ConfirmingPassword.class));
-    }
 
-    public void requestHist(View view) {
-        startActivity(new Intent(ProfileActivity.this, RequestHistoryActivity.class));
-    }
-
-    public void yourBookmarkClicked(View view) {
-        startActivity(new Intent(this, BookmarksActivity.class));
-    }
 }

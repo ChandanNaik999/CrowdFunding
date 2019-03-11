@@ -61,5 +61,13 @@
             android:text="reason5" />
     </RadioGroup>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorLightRed"
+        android:text="DELETE"
+        android:textColor="@android:color/white"
+        android:onClick="deactivate_account"/>
+
 
 </LinearLayout>

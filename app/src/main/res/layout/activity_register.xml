@@ -13,8 +13,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" android:background="#fff">
 
-
-
         <!--  Header  Starts-->
         <LinearLayout android:id="@+id/header"
             android:layout_width="fill_parent"
@@ -47,11 +45,12 @@
             android:padding="10dip"
             android:layout_below="@id/header">
             <!-- Full Name Label -->
-            <TextView android:layout_width="fill_parent"
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#372c24"
                 android:text="Full Name"/>
-            <EditText android:id="@+id/reg_fullname"
+            <EditText android:id="@+id/nameRegister"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dip"

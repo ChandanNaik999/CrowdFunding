@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.seproject.crowdfunder.R;
-import com.seproject.crowdfunder.Chandan.Adapter.RequestShortDetailsAdapter;
+import com.seproject.crowdfunder.adapter.RequestShortDetailsAdapter;
 import com.seproject.crowdfunder.models.RequestShortDetails;
 
 import java.util.ArrayList;

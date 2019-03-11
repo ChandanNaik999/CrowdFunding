@@ -36,7 +36,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp">
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/profilePic"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     app:srcCompat="@mipmap/ic_launcher_round" />
@@ -46,8 +46,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
-                    android:src="@drawable/ic_edit"
-                    />
+                    android:src="@drawable/ic_edit"/>
+
             </FrameLayout>
 
 
@@ -76,17 +76,17 @@
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/mail_id"
-                android:layout_marginTop="2dp"
-                android:fontFamily="@font/roboto_light"
-                android:layout_centerHorizontal="true"
-                android:text="@string/demo_location"
-                android:textColor="@android:color/white"
-                android:textSize="14sp" />
+            <!--<TextView-->
+                <!--android:id="@+id/location"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/mail_id"-->
+                <!--android:layout_marginTop="2dp"-->
+                <!--android:fontFamily="@font/roboto_light"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:text="@string/demo_location"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="14sp" />-->
 
 
             <!--Rating-->
@@ -95,7 +95,7 @@
                 style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/location"
+                android:layout_below="@+id/mail_id"
                 android:layout_marginTop="2dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="5dp"
@@ -253,3 +253,4 @@
 
 
 </android.support.design.widget.CoordinatorLayout>
+

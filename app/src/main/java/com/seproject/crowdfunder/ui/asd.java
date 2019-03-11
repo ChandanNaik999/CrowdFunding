@@ -17,5 +17,6 @@ public class asd extends AppCompatActivity {
 
     public void goToFillDetails(View view) {
         startActivity(new Intent(this, Mahesh_Elgibility.class));
+        finish();
     }
 }

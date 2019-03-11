@@ -17,11 +17,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.seproject.crowdfunder.Adarsh.UI.RateUsActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.seproject.crowdfunder.BuildConfig;
 import com.seproject.crowdfunder.R;
+import com.seproject.crowdfunder.Utils.util;
 import com.seproject.crowdfunder.adapter.ViewPagerAdapter;
 import com.seproject.crowdfunder.models.RequestShortDetails;
+import com.seproject.crowdfunder.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity
     private List<RequestShortDetails> requestShortDetails = new ArrayList<>();
     ViewPagerAdapter viewPagerAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +43,13 @@ public class MainActivity extends AppCompatActivity
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);*/
+
+        FirebaseUser FUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (FUser != null) {
+            util.user = new User();
+            util.user.setUid(FUser.getUid());
+            uploadUserDetails(util.user.getUid());
+        }
 
         setContentView(R.layout.activity_home);
 
@@ -89,6 +100,12 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    public void uploadUserDetails(String uid){
+        //upload profile data
+
+
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer =  findViewById(R.id.drawer_layout);
@@ -110,7 +127,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
 
         } else if (id == R.id.nav_bookmarked) {
-            startActivity(new Intent(this, Bookmarked.class));
+            startActivity(new Intent(this, BookmarksActivity.class));
 
         }else if (id == R.id.nav_start_a_request) {
             startActivity(new Intent(this, StartARequestActivity.class));

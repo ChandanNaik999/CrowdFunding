@@ -99,6 +99,7 @@
         android:fontFamily="@font/roboto_light"
         android:textStyle="bold"
         android:background="@drawable/gradient_blue"
+        android:onClick="gotToDocumentUpload"
         android:textColor="@android:color/white"
         />
 

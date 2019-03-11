@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.seproject.crowdfunder">
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -15,7 +19,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.Chandan_Bookmarks"></activity>
+        <activity
+            android:name=".LoginActivity2"
+            android:label="@string/title_activity_login2"></activity>
+        <activity android:name=".ui.DocumentUpload" />
+        <activity android:name=".ui.Chandan_Bookmarks" />
         <activity android:name=".ui.Mahesh_Elgibility" />
         <activity android:name=".ui.RatingTheUser" />
         <activity android:name=".ui.Splashscreen">
@@ -28,7 +36,7 @@
         <activity android:name=".ui.CheckDetailsPageForStartingReqest" />
         <activity android:name=".ui.bsd" />
         <activity android:name=".ui.asd" />
-        <activity android:name=".Adarsh.UI.RateUsActivity" />
+        <activity android:name=".ui.RateUsActivity" />
         <activity android:name=".ui.Distance" />
         <activity android:name=".ui.FillDetailsPageForStartingReqest" />
         <activity android:name=".ui.Choose" />
@@ -69,7 +77,7 @@
         <activity android:name=".ui.RequestHistoryActivity" />
         <activity android:name=".ui.StartARequestActivity" />
         <activity android:name=".ui.YourDonationsActivity" />
-        <activity android:name=".ui.Bookmarked" />
+        <activity android:name=".ui.BookmarksActivity" />
         <activity android:name=".ui.ProfileActivity" />
         <activity
             android:name=".ui.MainActivity"

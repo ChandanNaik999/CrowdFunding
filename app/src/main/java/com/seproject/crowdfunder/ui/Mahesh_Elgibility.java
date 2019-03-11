@@ -17,5 +17,6 @@ public class Mahesh_Elgibility extends AppCompatActivity {
 
     public void goToFillDetail(View view) {
         startActivity(new Intent(this, FillDetailsPageForStartingReqest.class));
+        finish();
     }
 }

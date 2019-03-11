@@ -1,4 +1,4 @@
-package com.seproject.crowdfunder.Chandan.Adapter;
+package com.seproject.crowdfunder.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

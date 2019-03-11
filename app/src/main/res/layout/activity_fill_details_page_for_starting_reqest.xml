@@ -73,18 +73,18 @@
             android:textSize="14sp"
             android:padding="@dimen/default_padding_edittext"
             android:hint="@string/what_is_the_deadline"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_light"
-            android:layout_marginBottom="40dp"
-            android:background="@drawable/selector_buttons"
-            android:layout_gravity="center_horizontal"
-            android:textSize="14sp"
-            android:textAllCaps="false"
-            android:textColor="@color/colorText"
-            android:padding="@dimen/default_padding_edittext"
-            android:text="@string/upload_your_documents"/>
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:fontFamily="@font/roboto_light"-->
+            <!--android:layout_marginBottom="40dp"-->
+            <!--android:background="@drawable/selector_buttons"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:textSize="14sp"-->
+            <!--android:textAllCaps="false"-->
+            <!--android:textColor="@color/colorText"-->
+            <!--android:padding="@dimen/default_padding_edittext"-->
+            <!--android:text="@string/upload_your_documents"/>-->
 
     </LinearLayout>
 

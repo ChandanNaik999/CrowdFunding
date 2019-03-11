@@ -49,6 +49,7 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_name">This name is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
@@ -59,8 +60,8 @@
     <string name="sign_in_using_google">Google</string>
     <string name="already_have_an_account_login_here">Already have an account? Login here</string>
     <string name="forgot_password">Forgot Password</string>
-    <string name="msg_box">Enter Password</string>
-    <string name="reenter">Please verify your password</string>
+    <string name="msg_box">Enter E-mail</string>
+    <string name="reenter">Please enter your e-mail</string>
     <string name="Continue">Continue</string>
     <string name="ask">May I know the Reson for De-Acivating</string>
     <string name="give_your_project_a_name">Give your project a name</string>
@@ -73,4 +74,5 @@
     <string name="heading">choose</string>
     <string name="start_the_request">Start the request</string>
     <string name="your_bookmarks">Your Bookmarks</string>
+    <string name="title_activity_login2">Sign in</string>
 </resources>

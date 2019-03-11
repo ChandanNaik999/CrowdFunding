@@ -15,7 +15,16 @@ public class FillDetailsPageForStartingReqest extends AppCompatActivity {
         setContentView(R.layout.activity_fill_details_page_for_starting_reqest);
     }
 
+//    public void gotocheck(View view) {
+//        startActivity(new Intent(this, CheckDetailsPageForStartingReqest.class));
+//    }
+
     public void gotocheck(View view) {
-        startActivity(new Intent(this, CheckDetailsPageForStartingReqest.class));
+        startActivity(new Intent(this, DocumentUpload.class));
+        finish();
+    }
+
+    public void gotToDocumentUpload(View view) {
+
     }
 }
