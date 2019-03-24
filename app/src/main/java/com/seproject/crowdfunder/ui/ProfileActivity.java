@@ -1,5 +1,6 @@
 package com.seproject.crowdfunder.ui;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -19,6 +22,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -55,16 +61,17 @@ public class ProfileActivity extends AppCompatActivity {
         RatingBar rating = findViewById(R.id.rating);
         profileImage = findViewById(R.id.profilePic);
 
-        name.setText(util.user.getName());
-        email.setText(util.user.getEmail());
-        rating.setRating(util.user.getRating());
+
+        email.setText(util.readFromSharedPreferencesString(ProfileActivity.this, util.SHARED_PREFERNCES_USER_DETAILS, util.SHARED_PREFERNCES_USER_DETAILS_EMAIL,0));
+        name.setText(util.readFromSharedPreferencesString(ProfileActivity.this, util.SHARED_PREFERNCES_USER_DETAILS, util.SHARED_PREFERNCES_USER_DETAILS_NAME,0));
+        rating.setRating(util.readFromSharedPreferencesFloat(ProfileActivity.this, util.SHARED_PREFERNCES_USER_DETAILS, util.SHARED_PREFERNCES_USER_DETAILS_RATING,0));
 
         getProfileImage();
 
     }
 
     private void getProfileImage() {
-        StorageReference islandRef = storageReference.child( util.user.getUid()+ "/profile.jpg");
+        StorageReference islandRef = storageReference.child( "profile/"+util.user.getUid()+ ".jpg");
 
         final long ONE_MEGABYTE = 1024 * 1024;
         islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -82,11 +89,57 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void closeClicked(View view) {
+        setResult(util.BACK);
         super.onBackPressed();
     }
 
+    @Override
+    public void onBackPressed() {
+        setResult(util.BACK);
+        super.onBackPressed();
+    }
+
+
     public void EditProfileClicked(View view) {
-        //Edit profile code here
+            // custom dialog
+            final Dialog dialog = new Dialog(ProfileActivity.this);
+            dialog.setContentView(R.layout.layout_dialog_profile);
+            dialog.setTitle("Update Name...");
+
+            // set the custom dialog components - text, image and button
+
+
+            Button cancel = (Button) dialog.findViewById(R.id.cancel);
+            // if button is clicked, close the custom dialog
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            final EditText name = dialog.findViewById(R.id.name_input);
+            Button ok = (Button) dialog.findViewById(R.id.ok);
+            // if button is clicked, close the custom dialog
+            ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (name.getText().toString().length() < 8)
+                        Toast.makeText(ProfileActivity.this, "Name too short",Toast.LENGTH_SHORT).show();
+                    else
+                    {
+                        String nam = name.getText().toString();
+                        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference(util.path_base_path + util.path_user + util.user.getUid());
+                        myRef.child("name").setValue(name.getText().toString());
+                        util.writeIntoSharedPref(ProfileActivity.this, util.SHARED_PREFERNCES_USER_DETAILS, util.SHARED_PREFERNCES_USER_DETAILS_NAME,name.getText().toString(),0);
+                        TextView textView  = findViewById(R.id.name);
+                        textView.setText(nam);
+                        dialog.dismiss();
+                    }
+                }
+            });
+
+        dialog.show();
 
     }
 
@@ -127,7 +180,7 @@ public class ProfileActivity extends AppCompatActivity {
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            StorageReference ref = storageReference.child(util.user.getUid() + "/profile.jpg");
+            StorageReference ref = storageReference.child( "profile/" + util.user.getUid()+ ".jpg");
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -176,5 +229,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void yourBookmarkClicked(View view) {
         startActivity(new Intent(this, BookmarksActivity.class));
+    }
+
+    public void logout(View view) {
+        FirebaseAuth.getInstance().signOut();
+        setResult(util.LOGOUT);
+        finish();
     }
 }

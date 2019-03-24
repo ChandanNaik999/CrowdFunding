@@ -33,17 +33,21 @@ public class Distance extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_distance);
-        gpsTracker = new GPSTracker(this);
-        yourLocation = new Location("A");
-        yourLocation.setLatitude(gpsTracker.getLatitude());
-        yourLocation.setLongitude(gpsTracker.getLongitude());
-
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
 
         }
+
+
+        gpsTracker = new GPSTracker(this);
+        yourLocation = new Location("A");
+        yourLocation.setLatitude(gpsTracker.getLatitude());
+        yourLocation.setLongitude(gpsTracker.getLongitude());
+
+
+
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
@@ -55,8 +59,8 @@ public class Distance extends AppCompatActivity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
 
-                lat = (Double)dataSnapshot.child("sub/user/Xjpxl1gzfFfpoAVUOjNdvdNKtCH3/location/latitude").getValue();
-                longi = (Double)dataSnapshot.child("sub/user/Xjpxl1gzfFfpoAVUOjNdvdNKtCH3/location/longitude").getValue();
+                lat = (Double)dataSnapshot.child("sub/request/1/lat").getValue();
+                longi = (Double)dataSnapshot.child("sub/request/1/lon").getValue();
                 Toast.makeText(Distance.this, "lat: "+lat+"\n long:"+longi,Toast.LENGTH_LONG).show();
             }
 

@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.internal.Util;
 import com.seproject.crowdfunder.R;
 import com.seproject.crowdfunder.Utils.util;
 import com.seproject.crowdfunder.models.User;
@@ -50,6 +51,16 @@ public class RegisterActivity extends AppCompatActivity {
         // Set up the login form.
         mEmailView =  findViewById(R.id.reg_email);
         mName = findViewById(R.id.nameRegister);
+//        mName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+//                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
+//                    attemptLogin();
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
 
         mPasswordView = (EditText) findViewById(R.id.reg_password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -75,9 +86,6 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-
-
-
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
@@ -98,15 +106,8 @@ public class RegisterActivity extends AppCompatActivity {
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password) && password.length() == 0) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
         // Check for a valid name, if the user entered one.
-        if (!TextUtils.isEmpty(name) &&  password.length() == 0) {
+        if (!TextUtils.isEmpty(name) &&  name.length() <= 8) {
             mName.setError(getString(R.string.error_invalid_name));
             focusView = mName;
             cancel = true;
@@ -122,6 +123,18 @@ public class RegisterActivity extends AppCompatActivity {
             focusView = mEmailView;
             cancel = true;
         }
+
+
+        // Check for a valid password, if the user entered one.
+        if (!TextUtils.isEmpty(password) && !isPasswordValid(password) && password.length() <= 8) {
+            mPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mPasswordView;
+            cancel = true;
+        }
+
+
+ 
+
 
         if (cancel) {
             focusView.requestFocus();
@@ -152,26 +165,28 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void uploadUserDetails(String uid) {
-        myRef = database.getReference("sub/user/" + uid );
-        myRef.child("name").setValue(mName.getText().toString());
-        myRef.child("bookmarks").setValue(0);
-        myRef.child("can_notify").setValue(1);
-        myRef.child("is_account_active").setValue(1);
-        myRef.child("is_deactivated").setValue(0);
-        myRef.child("is_donor").setValue(0);
-        myRef.child("is_online").setValue(1);
-        myRef.child("is_requestor").setValue(0);
-        myRef.child("mail").setValue(mEmailView.getText().toString());
-        myRef.child("no_of_donations").setValue(0);
-        myRef.child("no_of_requests").setValue(0);
-        myRef.child("rating").setValue(0);
-        myRef.child("total_donated").setValue(0);
-        myRef.child("total_requested").setValue(0);
-
-
-        util.user.setEmail(mEmailView.getText().toString());
+        myRef = database.getReference(util.path_base_path + util.path_user +uid );
         util.user.setRating(0);
         util.user.setName(mName.getText().toString());
+        util.user.setCan_notify(1);
+        util.user.setIs_donor(0);
+        util.user.setNo_of_bookmarks(0);
+        util.user.setIs_deactivated(0);
+        util.user.setIs_account_active(1);
+        util.user.setUid(uid);
+        util.user.setNo_of_requests(0);
+        util.user.setNo_of_donations(0);
+        util.user.setWallet(2000);
+
+        myRef.setValue(util.user);
+
+
+        //save to share reference
+        util.writeIntoSharedPref(RegisterActivity.this, util.SHARED_PREFERNCES_USER_DETAILS, util.SHARED_PREFERNCES_USER_DETAILS_NAME, util.user.getName(),0);
+        util.writeIntoSharedPref(RegisterActivity.this, util.SHARED_PREFERNCES_USER_DETAILS, util.SHARED_PREFERNCES_USER_DETAILS_EMAIL, mEmailView.getText().toString(),0);
+        util.writeIntoSharedPref(RegisterActivity.this, util.SHARED_PREFERNCES_USER_DETAILS, util.SHARED_PREFERNCES_USER_DETAILS_UID, util.user.getUid(),0);
+        util.writeIntoSharedPref(RegisterActivity.this, util.SHARED_PREFERNCES_USER_DETAILS, util.SHARED_PREFERNCES_USER_DETAILS_RATING,util.user.getRating() ,0);
+
 
     }
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ui.asd">
+    tools:context=".ui.ChooseProject">
 
     <TextView
         android:id="@+id/textView"
@@ -28,6 +28,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Spinner
+        android:id="@+id/spinner"
         android:layout_width="wrap_content"
         android:layout_height="133dp"
         android:layout_marginStart="16dp"

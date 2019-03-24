@@ -1,11 +1,21 @@
 package com.seproject.crowdfunder.ui;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,27 +25,52 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.seproject.crowdfunder.BuildConfig;
+import com.seproject.crowdfunder.Login;
 import com.seproject.crowdfunder.R;
+import com.seproject.crowdfunder.Utils.GPSTracker;
 import com.seproject.crowdfunder.Utils.util;
 import com.seproject.crowdfunder.adapter.ViewPagerAdapter;
+import com.seproject.crowdfunder.models.DistanceRequest;
+import com.seproject.crowdfunder.models.Request;
 import com.seproject.crowdfunder.models.RequestShortDetails;
 import com.seproject.crowdfunder.models.User;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "MainActivity";
     private List<RequestShortDetails> requestShortDetails = new ArrayList<>();
     ViewPagerAdapter viewPagerAdapter;
 
 
+    GPSTracker gpsTracker;
+    Double lat,longi;
+    public static Location yourLocation;
+    FirebaseStorage storage;
+    StorageReference storageReference;
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +79,26 @@ public class MainActivity extends AppCompatActivity
         window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);*/
 
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
+        while(true) {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
+
+            } else {
+                gpsTracker = new GPSTracker(this);
+                yourLocation = new Location("A");
+                yourLocation.setLatitude(gpsTracker.getLatitude());
+                yourLocation.setLongitude(gpsTracker.getLongitude());
+                break;
+            }
+        }
+
+
+
+        setUserDetails();
         FirebaseUser FUser = FirebaseAuth.getInstance().getCurrentUser();
         if (FUser != null) {
             util.user = new User();
@@ -52,6 +107,85 @@ public class MainActivity extends AppCompatActivity
         }
 
         setContentView(R.layout.activity_home);
+//        setNameandEmail();
+
+
+
+
+
+
+
+        //get near requests near you
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference myRef = database.getReference(util.path_base_path + util.path_requests);
+
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+
+
+                for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
+                    Double lat = Double.parseDouble(dataSnapshot1.child("lat").getValue().toString());
+                    Double lon = Double.parseDouble(dataSnapshot1.child("lon").getValue().toString());
+                    double dist = util.kilometerDistanceBetweenPoints(yourLocation.getLatitude(),yourLocation.getLongitude(),lat,lon);;
+                    util.distanceRequestArrayList.add(new DistanceRequest(dataSnapshot1.child("request_id").getValue().toString(),dist) );
+                }
+
+                myRef.removeEventListener(this);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+        util.distanceRequestArrayList.sort(new Comparator<DistanceRequest>() {
+            @Override
+            public int compare(DistanceRequest o1, DistanceRequest o2) {
+                if(o1.getDistance() == o2.getDistance())
+                    return 0;
+                else if(o1.getDistance() > o2.getDistance())
+                    return 1;
+                else
+                    return -1;
+            }
+        });
+
+
+        final DatabaseReference myRef1 = database.getReference(util.path_base_path + util.path_requests);
+        myRef1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+
+
+                for (DistanceRequest distanceRequest : util.distanceRequestArrayList){
+                    for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
+                        if(dataSnapshot1.child("request_id").toString().matches(distanceRequest.getRequest_id()))
+                            util.requestsNearYou.add(dataSnapshot1.getValue(Request.class));
+                    }
+
+                }
+
+                myRef.removeEventListener(this);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+
 
 
 
@@ -92,12 +226,46 @@ public class MainActivity extends AppCompatActivity
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                startActivityForResult(new Intent(MainActivity.this, ProfileActivity.class) ,util.LOGOUT );
+            }
+        });
+
+        //set name and email
+        TextView name = headerView.findViewById(R.id.navName);
+        TextView mail = headerView.findViewById(R.id.navMail);
+        final ImageView proImage = headerView.findViewById(R.id.pro_image_nav);
+
+        name.setText(util.readFromSharedPreferencesString(this, util.SHARED_PREFERNCES_USER_DETAILS,util.SHARED_PREFERNCES_USER_DETAILS_NAME,0));
+        mail.setText(util.readFromSharedPreferencesString(this, util.SHARED_PREFERNCES_USER_DETAILS,util.SHARED_PREFERNCES_USER_DETAILS_EMAIL,0));
+
+
+
+        StorageReference islandRef = storageReference.child( "profile/"+util.user.getUid()+ ".jpg");
+
+        final long ONE_MEGABYTE = 1024 * 1024;
+        islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                proImage.setImageBitmap(bmp);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Toast.makeText(MainActivity.this, "no profile pic",Toast.LENGTH_SHORT).show();
             }
         });
 
 
+
     }
+
+    private void setUserDetails() {
+        util.user.setUid(util.readFromSharedPreferencesString(this, util.SHARED_PREFERNCES_USER_DETAILS, util.SHARED_PREFERNCES_USER_DETAILS_UID,0));
+        util.user.setName(util.readFromSharedPreferencesString(this, util.SHARED_PREFERNCES_USER_DETAILS, util.SHARED_PREFERNCES_USER_DETAILS_NAME,0));
+    }
+
+
 
 
     public void uploadUserDetails(String uid){
@@ -143,12 +311,16 @@ public class MainActivity extends AppCompatActivity
         }else if (id == R.id.nav_about) {
 
         }
-        else if (id == R.id.nav_distance) {
-            startActivity(new Intent(this, Distance.class));
+        else if (id == R.id.nav_chat) {
+            startActivity(new Intent(this, Login.class));
         }
         else if (id == R.id.nav_rate_user) {
             startActivity(new Intent(this, RatingTheUser.class));
         }
+        else if (id == R.id.nav_explore) {
+            startActivity(new Intent(this, ExploreActivity.class));
+        }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -200,5 +372,21 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        switch (resultCode){
+            case 1: // util.BACK
+                break;
+            case 2: //util.LOGOUT
+                startActivity(new Intent(this, StartActivity.class));
+                finish();
+                break;
+        }
+    }
 
 }

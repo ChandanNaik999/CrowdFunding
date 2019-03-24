@@ -92,18 +92,18 @@
                     android:textStyle="bold" />
 
                 <!--Place Name-->
-                <TextView
-                    android:id="@+id/location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:drawableStart="@drawable/ic_location"
-                    android:drawablePadding="5dp"
-                    android:fontFamily="@font/roboto_light"
-                    android:text="@string/demo_place"
-                    android:textColor="@color/colorText"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                <!--<TextView-->
+                    <!--android:id="@+id/location"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginBottom="8dp"-->
+                    <!--android:drawableStart="@drawable/ic_location"-->
+                    <!--android:drawablePadding="5dp"-->
+                    <!--android:fontFamily="@font/roboto_light"-->
+                    <!--android:text="@string/demo_place"-->
+                    <!--android:textColor="@color/colorText"-->
+                    <!--android:textSize="12sp"-->
+                    <!--android:textStyle="bold" />-->
             </LinearLayout>
         </LinearLayout>
 

@@ -60,8 +60,8 @@
     <string name="sign_in_using_google">Google</string>
     <string name="already_have_an_account_login_here">Already have an account? Login here</string>
     <string name="forgot_password">Forgot Password</string>
-    <string name="msg_box">Enter E-mail</string>
-    <string name="reenter">Please enter your e-mail</string>
+    <string name="msg_box">Enter password</string>
+    <string name="reenter">Please enter your password</string>
     <string name="Continue">Continue</string>
     <string name="ask">May I know the Reson for De-Acivating</string>
     <string name="give_your_project_a_name">Give your project a name</string>
@@ -75,4 +75,5 @@
     <string name="start_the_request">Start the request</string>
     <string name="your_bookmarks">Your Bookmarks</string>
     <string name="title_activity_login2">Sign in</string>
+    <string name="days_left">days left</string>
 </resources>

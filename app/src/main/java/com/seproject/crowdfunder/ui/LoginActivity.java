@@ -28,8 +28,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.seproject.crowdfunder.R;
 import com.seproject.crowdfunder.Utils.util;
+import com.seproject.crowdfunder.models.User;
 
 import java.util.Objects;
 
@@ -43,20 +49,17 @@ public class LoginActivity extends AppCompatActivity  {
     // UI references.
     private EditText mEmailView;
     private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        database = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.login_layout);
         // Set up the login form.
         mEmailView =  findViewById(R.id.email);
-        mProgressView  = findViewById(R.id.progress_bar);
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
 
 
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -83,9 +86,6 @@ public class LoginActivity extends AppCompatActivity  {
 
 
     }
-
-
-
 
 
 
@@ -139,7 +139,8 @@ public class LoginActivity extends AppCompatActivity  {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
-
+                                assert user != null;
+                                    updateDetails(user.getUid(), user.getEmail());
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
@@ -156,6 +157,26 @@ public class LoginActivity extends AppCompatActivity  {
                     });
 
         }
+    }
+
+    private void updateDetails(String uid, String email) {
+        myRef = database.getReference(util.path_base_path + util.path_user +uid  );
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                util.user = dataSnapshot.getValue(User.class);
+                //Log.d(TAG, "Value is: " + value);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+        myRef.child("is_online").setValue(1);
     }
 
     private boolean isEmailValid(String email) {
@@ -184,8 +205,12 @@ public class LoginActivity extends AppCompatActivity  {
 
 
     public void continue_to_main(View view) {
+
+        //store email,  name, rating in the shared pref
         util.writeIntoSharedPref(getApplicationContext(), util.SHARED_PREFERNCES_USER_DETAILS,util.SHARED_PREFERNCES_USER_DETAILS_EMAIL,mEmailView.getText().toString(),0);
-        util.writeIntoSharedPref(getApplicationContext(), util.SHARED_PREFERNCES_USER_DETAILS,util.SHARED_PREFERNCES_USER_DETAILS_UID, Objects.requireNonNull(mAuth.getCurrentUser()).getUid(),0);
+        util.writeIntoSharedPref(getApplicationContext(), util.SHARED_PREFERNCES_USER_DETAILS,util.SHARED_PREFERNCES_USER_DETAILS_NAME,util.user.getName(),0);
+        //util.writeIntoSharedPref(getApplicationContext(), util.SHARED_PREFERNCES_USER_DETAILS,util.SHARED_PREFERNCES_USER_DETAILS_UID, Objects.requireNonNull(mAuth.getCurrentUser()).getUid(),0);
+        util.writeIntoSharedPref(getApplicationContext(), util.SHARED_PREFERNCES_USER_DETAILS,util.SHARED_PREFERNCES_USER_DETAILS_RATING, util.user.getRating(),0);
 
         startActivity(new Intent(this, MainActivity.class));
     }

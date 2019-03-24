@@ -8,6 +8,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -19,6 +20,7 @@ import com.seproject.crowdfunder.R;
 import com.seproject.crowdfunder.Utils.FirebaseMethods;
 import com.seproject.crowdfunder.Utils.util;
 import com.seproject.crowdfunder.adapter.RequestShortDetailsAdapter;
+import com.seproject.crowdfunder.models.Request;
 import com.seproject.crowdfunder.models.RequestShortDetails;
 
 import java.util.ArrayList;
@@ -41,7 +43,7 @@ public class BookmarksActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookmarked);
         database = FirebaseDatabase.getInstance();
-
+        bookmarks.clear();
 
         recyclerViewList =  findViewById(R.id.list);
         adapter= new RequestShortDetailsAdapter(this, requestShortDetails);
@@ -50,27 +52,18 @@ public class BookmarksActivity extends AppCompatActivity {
         recyclerViewList.setItemAnimator(new DefaultItemAnimator());
         recyclerViewList.setAdapter(adapter);
 
-        final SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swiperefresh);
-        swipeRefreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                }
-        );
 
-        myRef = database.getReference("sub/user/" + util.user.getUid() + "/bookmarks");
+        myRef = database.getReference(util.path_base_path + util.path_user + util.user.getUid() + "/" + util.path_bookmarks);
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int i = 0;
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                     bookmarks.set(i,postSnapshot.getValue(String.class));
+                        bookmarks.add(postSnapshot.getValue(String.class));
                 }
 
                 updateView();
+                myRef.removeEventListener(this);
             }
 
 
@@ -86,26 +79,29 @@ public class BookmarksActivity extends AppCompatActivity {
         if(bookmarks.size() == 0)
             Toast.makeText(BookmarksActivity.this, "No Bookmarks", Toast.LENGTH_SHORT).show();
         else
-        {
+        {   requestShortDetails.clear();
             int i =0;
             for( ; i<bookmarks.size();i++ ){
                 myRef = database.getReference("sub/request/" + bookmarks.get(i));
                 myRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            Request request = dataSnapshot.getValue(Request.class);
+
                             requestShortDetailsFromdatabase = new RequestShortDetails();
-                            requestShortDetailsFromdatabase.setId(dataSnapshot.child("/user_id").getValue().toString());
-                            requestShortDetailsFromdatabase.setName(dataSnapshot.child("/name").getValue().toString());
-                            requestShortDetailsFromdatabase.setTitle(dataSnapshot.child("/title").getValue().toString());
-                            requestShortDetailsFromdatabase.setamountRequested(Integer.parseInt(dataSnapshot.child("/amount_required").getValue().toString()));
-                            requestShortDetailsFromdatabase.setBackers(Integer.parseInt(dataSnapshot.child("/backers").getValue().toString()));
-                            requestShortDetailsFromdatabase.setLocation(dataSnapshot.child("/location").getValue().toString());
-                            requestShortDetailsFromdatabase.setpercentFunded(Integer.parseInt(dataSnapshot.child("/amount_funded").getValue().toString())*100/requestShortDetailsFromdatabase.getamountRequested());
-                            requestShortDetailsFromdatabase.setRating(Float.parseFloat(dataSnapshot.child("/rating").getValue().toString()));
-                            requestShortDetailsFromdatabase.settimeLeft(Integer.parseInt(dataSnapshot.child("/days_left").getValue().toString()));
+                            requestShortDetailsFromdatabase.setId(request.getUid());
+                            requestShortDetailsFromdatabase.setName(request.getUser_name());
+                            requestShortDetailsFromdatabase.setTitle(request.getTitle());
+                            requestShortDetailsFromdatabase.setamountRequested((int)request.getAmount_required());
+                            requestShortDetailsFromdatabase.setBackers(request.getBackers());
+//                            requestShortDetailsFromdatabase.setLocation(dataSnapshot.child("/location").getValue().toString());
+                            requestShortDetailsFromdatabase.setpercentFunded((int)(request.getAmount_funded()*100/request.getAmount_required()));
+                            requestShortDetailsFromdatabase.setRating(1);
+                            requestShortDetailsFromdatabase.settimeLeft(request.getDays_left());
                             requestShortDetailsFromdatabase.setProfilePic(R.drawable.app_icon);
-                            requestShortDetailsFromdatabase.setBookmarked(false);
-                            requestShortDetails.clear();
+                            requestShortDetailsFromdatabase.setBookmarked(true);
+
                             requestShortDetails.add(requestShortDetailsFromdatabase);
                             adapter.notifyDataSetChanged();
 
@@ -121,5 +117,9 @@ public class BookmarksActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    public void backClicked(View view) {
+        super.onBackPressed();
     }
 }

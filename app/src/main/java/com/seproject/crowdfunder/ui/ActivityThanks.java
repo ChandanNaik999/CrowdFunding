@@ -7,16 +7,16 @@ import android.view.View;
 
 import com.seproject.crowdfunder.R;
 
-public class asd extends AppCompatActivity {
+public class ActivityThanks extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_asd);
+        setContentView(R.layout.layout_thank_the_donor);
     }
 
-    public void goToFillDetails(View view) {
-        startActivity(new Intent(this, Mahesh_Elgibility.class));
+    public void continue_clicked(View view) {
+        startActivity(new Intent(ActivityThanks.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
         finish();
     }
 }

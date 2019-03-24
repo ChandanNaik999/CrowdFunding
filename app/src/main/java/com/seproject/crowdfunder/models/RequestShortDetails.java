@@ -8,7 +8,7 @@ public class RequestShortDetails
     private String title;
     private int profilePic;
     private String name;
-    private String location;
+//    private String location;
     private float rating = 5;
     private boolean bookmarked;
     private int amountRequested;
@@ -16,22 +16,27 @@ public class RequestShortDetails
     private int timeLeft;
     private int percentFunded;
 
+
+
+    private int views;
+
     public RequestShortDetails() {
-        this("id","Request", R.mipmap.ic_launcher_round ,"Name" ,"Location" , 5,false ,0 , 0, 0, 66);
+        this("id","Request", R.mipmap.ic_launcher_round ,"Name" ,"Location" , 5,false ,0 , 0, 0, 66, 0);
     }
 
-    public RequestShortDetails(String id,String title , int profilePic, String name, String location, float rating, boolean bookmarked, int amountRequested, int backers, int timeLeft, int percentFunded) {
+    public RequestShortDetails(String id,String title , int profilePic, String name, String location, float rating, boolean bookmarked, int amountRequested, int backers, int timeLeft, int percentFunded, int views) {
         this.id = id;
         this.title = title;
         this.profilePic = profilePic;
         this.name = name;
-        this.location = location;
+//        this.location = location;
         this.rating = rating;
         this.bookmarked = bookmarked;
         this.amountRequested = amountRequested;
         this.backers = backers;
         this.timeLeft = timeLeft;
         this.percentFunded = percentFunded;
+        this.views = views;
     }
 
     public String getTitle() {
@@ -57,14 +62,14 @@ public class RequestShortDetails
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
+//
+//    public String getLocation() {
+//        return location;
+//    }
+//
+//    public void setLocation(String location) {
+//        this.location = location;
+//    }
 
     public float getRating() {
         return rating;
@@ -120,5 +125,13 @@ public class RequestShortDetails
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public int getViews() {
+        return views;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
     }
 }

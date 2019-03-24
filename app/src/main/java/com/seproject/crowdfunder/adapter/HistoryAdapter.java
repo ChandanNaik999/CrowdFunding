@@ -39,21 +39,28 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card, parent, false);
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.startActivity(new Intent(context, DetailRequest.class));
-            }
-        });
+//        itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//
+//            }
+//        });
         return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         Request request = list.get(position);
         holder.title.setText(request.getTitle());
-        holder.amount.setText(request.getAmount());
-        holder.date.setText(request.getDate());
+        holder.title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, DetailRequest.class).putExtra("rid",list.get(position).getRequest_id()));
+            }
+        });
+        //holder.amount.setText(request.getAmount());
+        //holder.date.setText(request.getDate());
     }
 
     @Override

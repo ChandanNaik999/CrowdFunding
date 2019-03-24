@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.seproject.crowdfunder.R;
+import com.seproject.crowdfunder.models.DonationDetail;
 import com.seproject.crowdfunder.models.Request;
 import com.seproject.crowdfunder.ui.DetailRequest;
 
@@ -16,7 +17,7 @@ import java.util.List;
 
 public class nameAdapter extends RecyclerView.Adapter<nameAdapter.MyViewHolder> {
 
-    private List<Request> list;
+    private List<DonationDetail> list;
     Context context;
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, amount, date;
@@ -30,7 +31,7 @@ public class nameAdapter extends RecyclerView.Adapter<nameAdapter.MyViewHolder> 
     }
 
 
-    public nameAdapter(List<Request> list, Context context) {
+    public nameAdapter(List<DonationDetail> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -45,10 +46,10 @@ public class nameAdapter extends RecyclerView.Adapter<nameAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Request request = list.get(position);
-        holder.title.setText(request.getTitle());
-        holder.amount.setText(request.getAmount());
-        holder.date.setText(request.getDate());
+        DonationDetail donationDetail = list.get(position);
+        holder.title.setText(donationDetail.getUid());
+        //holder.amount.setText(request.getAmount());
+        //holder.date.setText(request.getDate());
     }
 
     @Override

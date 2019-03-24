@@ -2,13 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.seproject.crowdfunder">
-
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -19,12 +20,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity
-            android:name=".LoginActivity2"
-            android:label="@string/title_activity_login2"></activity>
+        <activity android:name=".ui.Chandan_Bookmark"></activity>
+        <activity android:name=".ui.ResetActivity" />
+        <activity android:name=".ui.ActivityThanks" />
+        <activity android:name=".ui.ChoosePublicPrivate" />
+        <activity android:name=".PrivateRequest" />
+        <activity android:name=".ui.Chat" />
+        <activity android:name=".ui.LocationInput" />
+        <activity android:name=".ui.RequestActivity" />
+        <activity android:name=".ui.ExploreActivity" /> <!-- <activity -->
+        <!-- android:name=".LoginActivity2" -->
+        <!-- android:label="@string/title_activity_login2" /> -->
         <activity android:name=".ui.DocumentUpload" />
-        <activity android:name=".ui.Chandan_Bookmarks" />
-        <activity android:name=".ui.Mahesh_Elgibility" />
+        <activity android:name=".ui.EligibilityForStartRequest" />
         <activity android:name=".ui.RatingTheUser" />
         <activity android:name=".ui.Splashscreen">
             <intent-filter>
@@ -34,8 +42,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.CheckDetailsPageForStartingReqest" />
-        <activity android:name=".ui.bsd" />
-        <activity android:name=".ui.asd" />
+        <activity android:name=".ui.ChooseStudy" />
+        <activity android:name=".ui.ChooseProject" />
         <activity android:name=".ui.RateUsActivity" />
         <activity android:name=".ui.Distance" />
         <activity android:name=".ui.FillDetailsPageForStartingReqest" />
@@ -43,7 +51,6 @@
         <activity android:name=".ui.ContactUs" />
         <activity android:name=".ui.ResonForDeactivating" />
         <activity android:name=".ui.ConfirmingPassword" />
-        <activity android:name=".ui.EditProfileActivity" />
         <activity android:name=".ui.ForgotPasswordActivity" />
         <activity
             android:name=".ui.RegisterActivity"
@@ -84,6 +91,8 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme" />
         <activity android:name=".ui.DetailRequest" />
+        <activity android:name=".Login" />
+        <activity android:name=".Users" />
     </application>
 
 </manifest>

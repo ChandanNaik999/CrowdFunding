@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.RadioButton;
 
 import com.seproject.crowdfunder.R;
@@ -21,11 +20,11 @@ public class Choose extends AppCompatActivity {
         RadioButton radio1 = findViewById(R.id.radioProject);
         RadioButton radio2 = findViewById(R.id.radioStudy);
         if(radio1.isChecked()) {
-            startActivity(new Intent(this, asd.class));
+            startActivity(new Intent(this, ChooseProject.class));
             finish();
         }
         if(radio2.isChecked()) {
-            startActivity(new Intent(this, bsd.class));
+            startActivity(new Intent(this, ChooseStudy.class));
             finish();
         }
 
