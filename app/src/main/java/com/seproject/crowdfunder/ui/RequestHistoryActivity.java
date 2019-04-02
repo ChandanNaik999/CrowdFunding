@@ -6,6 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,7 +21,7 @@ import com.seproject.crowdfunder.models.Request;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+/** Ratan  - 17CO211 */
 public class RequestHistoryActivity extends AppCompatActivity {
 
     private static final String TAG = "RequestHistory";
@@ -66,5 +67,9 @@ public class RequestHistoryActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void backClicked(View view) {
+        super.onBackPressed();
     }
 }

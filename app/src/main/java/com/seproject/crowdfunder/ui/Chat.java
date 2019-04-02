@@ -20,7 +20,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.seproject.crowdfunder.R;
-
+/**   Kaushiq - 17CO131 */
 public class Chat extends AppCompatActivity {
     LinearLayout layout;
     ImageView sendButton;

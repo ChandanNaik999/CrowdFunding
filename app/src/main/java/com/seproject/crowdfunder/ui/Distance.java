@@ -19,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.seproject.crowdfunder.R;
 import com.seproject.crowdfunder.Utils.GPSTracker;
-
+/**   Kaushiq - 17CO131 */
 public class Distance extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";

@@ -35,7 +35,7 @@ import com.seproject.crowdfunder.Utils.util;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
-
+/** Chandan Naik - 17CO212 */
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -235,5 +235,9 @@ public class ProfileActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         setResult(util.LOGOUT);
         finish();
+    }
+
+    public void openWallet(View view) {
+        startActivity(new Intent(this, Wallet.class));
     }
 }

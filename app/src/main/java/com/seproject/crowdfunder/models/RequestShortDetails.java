@@ -1,23 +1,20 @@
 package com.seproject.crowdfunder.models;
 
 import com.seproject.crowdfunder.R;
-
+/**  Chandan - 17CO212 */
 public class RequestShortDetails
 {
     private String id;
     private String title;
     private int profilePic;
     private String name;
-//    private String location;
+    private String location;
     private float rating = 5;
     private boolean bookmarked;
     private int amountRequested;
     private int backers;
     private int timeLeft;
     private int percentFunded;
-
-
-
     private int views;
 
     public RequestShortDetails() {
@@ -29,7 +26,7 @@ public class RequestShortDetails
         this.title = title;
         this.profilePic = profilePic;
         this.name = name;
-//        this.location = location;
+        this.location = location;
         this.rating = rating;
         this.bookmarked = bookmarked;
         this.amountRequested = amountRequested;
@@ -133,5 +130,13 @@ public class RequestShortDetails
 
     public void setViews(int views) {
         this.views = views;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

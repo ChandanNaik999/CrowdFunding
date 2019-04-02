@@ -46,6 +46,7 @@ import com.seproject.crowdfunder.R;
 import com.seproject.crowdfunder.Utils.GPSTracker;
 import com.seproject.crowdfunder.Utils.util;
 import com.seproject.crowdfunder.adapter.ViewPagerAdapter;
+import com.seproject.crowdfunder.fragment.Notification;
 import com.seproject.crowdfunder.models.DistanceRequest;
 import com.seproject.crowdfunder.models.Request;
 import com.seproject.crowdfunder.models.RequestShortDetails;
@@ -55,7 +56,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-
+/** Chandan Naik - 17CO212 */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -211,6 +212,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Snackbar.make(view, "Start a request", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                startActivity(new Intent(MainActivity.this, StartARequestActivity.class));
             }
         });
 
@@ -252,7 +254,7 @@ public class MainActivity extends AppCompatActivity
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                Toast.makeText(MainActivity.this, "no profile pic",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "no profile pic",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -320,6 +322,12 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_explore) {
             startActivity(new Intent(this, ExploreActivity.class));
         }
+        else if (id == R.id.nav_notify) {
+            startActivity(new Intent(this, Notification.class));}
+//        }
+//        else if (id == R.id.nav_wallet) {
+//            startActivity(new Intent(this, Wallet.class));
+//        }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

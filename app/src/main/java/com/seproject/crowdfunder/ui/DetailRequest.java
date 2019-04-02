@@ -6,6 +6,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,21 +20,23 @@ import com.seproject.crowdfunder.adapter.HistoryAdapter;
 import com.seproject.crowdfunder.adapter.nameAdapter;
 import com.seproject.crowdfunder.models.DonationDetail;
 import com.seproject.crowdfunder.models.Request;
+import com.seproject.crowdfunder.models.RequestHistory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+/**  Ratan  - 17CO211 */
 public class DetailRequest extends AppCompatActivity {
     private static final String TAG = "DetailRequest";
-    private List<DonationDetail> requestList = new ArrayList<>();
+    private List<RequestHistory> requestList = new ArrayList<>();
     int request_id;
     nameAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_request);
-        request_id = getIntent().getIntExtra("rid",0);
+        request_id = getIntent().getIntExtra("request_id",0);
+        Toast.makeText(this, request_id + "", Toast.LENGTH_SHORT).show();
 
         adapter = new nameAdapter(requestList,this);
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
@@ -58,10 +62,10 @@ public class DetailRequest extends AppCompatActivity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-                    if(Objects.requireNonNull(Integer.parseInt(dataSnapshot1.child("request_id").getValue().toString()) == request_id &&
-                            dataSnapshot1.child("uid").getValue().toString().matches(util.user.getUid())) )
-                        requestList.add(dataSnapshot1.getValue(DonationDetail.class));
+                    if(Objects.requireNonNull(Integer.parseInt(dataSnapshot1.child("request_id").getValue().toString()) == request_id))
+                        requestList.add(dataSnapshot1.getValue(RequestHistory.class));
                 }
+                adapter.notifyDataSetChanged();
                 myRef.removeEventListener(this);
             }
 
@@ -72,7 +76,13 @@ public class DetailRequest extends AppCompatActivity {
             }
         });
 
-        adapter.notifyDataSetChanged();
 
+    }
+
+    public void backClicked(View view) {
+        super.onBackPressed();
+    }
+
+    public void askRating(View view) {
     }
 }

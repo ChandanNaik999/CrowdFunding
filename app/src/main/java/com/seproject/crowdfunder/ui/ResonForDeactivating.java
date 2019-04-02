@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.seproject.crowdfunder.R;
 import com.seproject.crowdfunder.Utils.util;
-
+/** Ratan  - 17CO211 */
 public class ResonForDeactivating extends AppCompatActivity {
 
     private static final String TAG = "ResonForDeactivating";

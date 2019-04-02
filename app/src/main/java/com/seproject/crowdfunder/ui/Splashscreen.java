@@ -8,7 +8,7 @@ import android.os.Bundle;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.seproject.crowdfunder.R;
-
+/** Arjun S 17CO209 */
 public class Splashscreen extends AppCompatActivity {
 
 

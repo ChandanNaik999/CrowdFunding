@@ -1,16 +1,25 @@
 package com.seproject.crowdfunder.fragment;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -18,66 +27,45 @@ import com.seproject.crowdfunder.R;
 
 import java.util.ArrayList;
 
-public class Notification extends Fragment {
+/** Arjun S 17CO209 */
 
-    DatabaseReference def;
-    ArrayList<String> names = new ArrayList<String>();
-    ArrayList<String> re = new ArrayList<>();
-    //ArrayList<pakage_noti> n=new ArrayList<>();
-    ListView l;
+public class Notification extends AppCompatActivity {
 
-    public Notification() {
-        // Required empty public constructor
-    }
-
+    Button notif_button;
+    private static final String CHANNEL_ID = "Bach";
+    private static final String CHANNEL_NAME = "Bach";
+    private static final String CHANNEL_DESC = "Bach";
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.layout_dialog_profile, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_notify);
 
-//        l=(ListView) view.findViewById(R.id.list);
-        //final ArrayAdapter<String> adapter=new ArrayAdapter<String>(guide_page.this,android.R.layout.simple_list_item_1,items);
-        //l.setAdapter(adapter);
-        def = FirebaseDatabase.getInstance().getReference("Notify_guide").child("noti");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription(CHANNEL_DESC);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
 
-//        def.addValueEventListener(new ValueEventListener() {
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for(DataSnapshot data:dataSnapshot.getChildren())
-//                {
-//                    String id=def.getKey();
-//                    pakage_noti u=data.getValue(pakage_noti.class);
-//
-//                    n.add(new pakage_noti(u.name+" wants to buy this package from your village",u.village,u.notiid,u.uid));
-//                }
-//                //adapter.notifyDataSetChanged();
-//
-//            }
-
-
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-
-//        final mylist list=new mylist(view.getContext(),n);
-//        l.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent1=new Intent(getActivity(),packages_2.class);
-//                pakage_noti p=(pakage_noti) l.getItemAtPosition(position);
-//                intent1.putExtra("Village",p.village);
-//                intent1.putExtra("notid",p.notiid);
-//                intent1.putExtra("uid",p.uid);
-//                startActivity(intent1);
-//            }
-//        });
-//        l.setAdapter(list);
-//        return view;
-//    }
-        return view;
+        notif_button = findViewById(R.id.show_notification);
+        notif_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayNotification();
+            }
+        });
     }
 
+    private void displayNotification() {
+
+        NotificationCompat.Builder notif_builder = new NotificationCompat.Builder(this,CHANNEL_ID);
+        notif_builder.setSmallIcon(R.mipmap.ic_launcher);
+        notif_builder.setContentTitle("Bachelors: New notification");
+        notif_builder.setContentText("New request for Property.");
+        notif_builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(1, notif_builder.build());
+    }
 }

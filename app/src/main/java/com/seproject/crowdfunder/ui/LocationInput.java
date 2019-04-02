@@ -9,7 +9,7 @@ import android.os.Bundle;
 
 import com.seproject.crowdfunder.R;
 import com.seproject.crowdfunder.Utils.GPSTracker;
-
+/**  Kaushiq - 17CO131 */
 public class LocationInput extends AppCompatActivity {
 
 

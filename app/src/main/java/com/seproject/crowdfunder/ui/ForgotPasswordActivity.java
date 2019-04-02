@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,7 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.seproject.crowdfunder.R;
-
+/**  adarsh 17CO204 */
 public class ForgotPasswordActivity extends AppCompatActivity {
 
     private EditText mEmailView;
@@ -57,26 +58,28 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             firebaseAuth= FirebaseAuth.getInstance();
 
                 String useremail=mEmailView.getText().toString();
+                Log.d("ForgotPassword: ","password");
                 if(useremail.equals(""))
                 {
                     Toast.makeText(ForgotPasswordActivity.this,"enter registered email ID", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    firebaseAuth.sendPasswordResetEmail(useremail).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful())
-                            {
-                                Toast.makeText(ForgotPasswordActivity.this,"password reset email sent",Toast.LENGTH_SHORT).show();
-                                finish();
-                                startActivity(new Intent(ForgotPasswordActivity.this,MainActivity.class));
-                                // startActivity(new Intent(crowdfunding.this,MainActivity.class));
-                            }
-                            else
-                            {
-                                Toast.makeText(ForgotPasswordActivity.this,"error in sending password reset email",Toast.LENGTH_SHORT).show();
-                            }
-                        }});
+                    firebaseAuth.sendPasswordResetEmail(useremail)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful())
+                                {
+                                    Toast.makeText(ForgotPasswordActivity.this,"password reset email sent",Toast.LENGTH_SHORT).show();
+                                    finish();
+                                    startActivity(new Intent(ForgotPasswordActivity.this,LoginActivity.class));
+                                    // startActivity(new Intent(crowdfunding.this,MainActivity.class));
+                                }
+                                else
+                                {
+                                    Toast.makeText(ForgotPasswordActivity.this,"error in sending password reset email",Toast.LENGTH_SHORT).show();
+                                }
+                            }});
                 }
             }
         }

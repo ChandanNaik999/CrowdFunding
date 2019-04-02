@@ -29,10 +29,8 @@ import com.google.firebase.storage.internal.Util;
 import com.seproject.crowdfunder.R;
 import com.seproject.crowdfunder.Utils.util;
 import com.seproject.crowdfunder.models.User;
-
+/** Kaushikq  - 17CO131 */
 public class RegisterActivity extends AppCompatActivity {
-
-
 
     // UI references.
     private EditText mEmailView;
@@ -107,26 +105,15 @@ public class RegisterActivity extends AppCompatActivity {
         View focusView = null;
 
         // Check for a valid name, if the user entered one.
-        if (!TextUtils.isEmpty(name) &&  name.length() <= 8) {
+        if (TextUtils.isEmpty(name) ||  name.length() <= 8) {
             mName.setError(getString(R.string.error_invalid_name));
             focusView = mName;
             cancel = true;
-        }
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
+        } else if (TextUtils.isEmpty(email) || !isEmailValid(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
-        }
-
-
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password) && password.length() <= 8) {
+        } else if (TextUtils.isEmpty(password) || !isPasswordValid(password) || password.length() <= 8) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;

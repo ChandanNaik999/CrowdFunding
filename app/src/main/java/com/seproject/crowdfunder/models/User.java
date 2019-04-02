@@ -2,7 +2,7 @@ package com.seproject.crowdfunder.models;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
+/**  Chandan - 17CO212 */
 public class User {
 
     String uid;
@@ -18,6 +18,7 @@ public class User {
     int no_of_requests;
     float rating;
     int wallet;
+    int user_rated;
 
 
 
@@ -124,5 +125,13 @@ public class User {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public int getUser_rated() {
+        return user_rated;
+    }
+
+    public void setUser_rated(int user_rated) {
+        this.user_rated = user_rated;
     }
 }

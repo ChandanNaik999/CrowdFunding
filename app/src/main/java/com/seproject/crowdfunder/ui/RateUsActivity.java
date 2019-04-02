@@ -13,7 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.seproject.crowdfunder.R;
 import com.seproject.crowdfunder.Utils.util;
-
+/** adarsh 17CO204 */
 public class RateUsActivity extends AppCompatActivity {
 
     RatingBar ratingbar;

@@ -1,7 +1,7 @@
 package com.seproject.crowdfunder.models;
 
 import android.location.Location;
-
+/**  Chandan - 17CO212 */
 public class Request {
 
     private String title;
@@ -19,6 +19,8 @@ public class Request {
     private int days_left;
     private int views;
     private String user_name;
+    private String location;
+    boolean bookmarked;
 
     public int getViews() {
         return views;
@@ -141,5 +143,21 @@ public class Request {
 
     public void setUser_name(String user_name) {
         this.user_name = user_name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public boolean isBookmarked() {
+        return bookmarked;
+    }
+
+    public void setBookmarked(boolean bookmarked) {
+        this.bookmarked = bookmarked;
     }
 }

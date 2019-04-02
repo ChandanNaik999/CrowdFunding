@@ -23,12 +23,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.seproject.crowdfunder.R;
 import com.seproject.crowdfunder.Utils.util;
+import com.seproject.crowdfunder.models.Request;
 import com.seproject.crowdfunder.models.RequestShortDetails;
 import com.seproject.crowdfunder.ui.Distance;
+import com.seproject.crowdfunder.ui.RequestActivity;
 
 import java.util.List;
 import java.util.Objects;
 
+import static com.seproject.crowdfunder.Utils.util.requests;
+/** Chandan - 17CO212 */
 public class RequestShortDetailsAdapter extends RecyclerView.Adapter<RequestShortDetailsAdapter.MyViewHolder> {
 
     private List<RequestShortDetails> requestList;
@@ -87,11 +91,12 @@ public class RequestShortDetailsAdapter extends RecyclerView.Adapter<RequestShor
         final RequestShortDetails request = requestList.get(position);
         holder.title.setText(request.getTitle());
         holder.name.setText(request.getName());
-        //holder.location.setText(request.getLocation());
+        holder.location.setText(request.getLocation());
         holder.profilePic.setImageResource(request.getProfilePic());
         holder.timeLeft.setText(String.format("%d\n days left", request.gettimeLeft()));
         holder.percentFunded.setProgress(request.getpercentFunded());
         holder.backers.setText(String.format("%d\ndonors", request.getBackers()));
+        holder.backers.setVisibility(View.INVISIBLE);
         holder.amountRequested.setText(String.format("Rs.%d/-\n requested", request.getamountRequested()));
         holder.rating.setRating(request.getRating());
         if (request.isBookmarked()) {
@@ -111,6 +116,10 @@ public class RequestShortDetailsAdapter extends RecyclerView.Adapter<RequestShor
                     request.setBookmarked(false);
                     bookmark.setEnabled(false);
                     removeFromBookmarks(request.getId());
+                    for(Request request1: requests){
+                        if (request.getId().matches(request1.getRequest_id() + ""))
+                            request1.setBookmarked(false);
+                    }
                     bookmark.setEnabled(true);
                 }
                 else {
@@ -118,6 +127,10 @@ public class RequestShortDetailsAdapter extends RecyclerView.Adapter<RequestShor
                     request.setBookmarked(true);
                     bookmark.setEnabled(false);
                     addToBookmarks(request.getId());
+                    for(Request request1: requests){
+                        if (request.getId().matches(request1.getRequest_id() + ""))
+                            request1.setBookmarked(true);
+                    }
                     bookmark.setEnabled(true);
                 }
             }
@@ -128,12 +141,14 @@ public class RequestShortDetailsAdapter extends RecyclerView.Adapter<RequestShor
             public void onClick(View v) {
                 //context.startActivity(new Intent(context, Distance.class));
                 increaseViews(request.getId());
+//                Toast.makeText(context, increaseViews(request.getId()) + "", Toast.LENGTH_SHORT).show();
+                context.startActivity(new Intent(context, RequestActivity.class).putExtra("request_id",request.getId()));
             }
         });
 
     }
 
-    private void increaseViews(final String id) {
+    private int  increaseViews(final String id) {
 
         final DatabaseReference myRef = database.getReference(util.path_base_path + util.path_requests + id );
 
@@ -141,9 +156,9 @@ public class RequestShortDetailsAdapter extends RecyclerView.Adapter<RequestShor
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 no_views = Integer.parseInt(Objects.requireNonNull(dataSnapshot.child(util.path_views).getValue()).toString());
-
                 DatabaseReference myRef1 = database.getReference(util.path_base_path + util.path_requests + id );
                 myRef1.child("views").setValue(no_views+1);
+
                 //Toast.makeText(context, "Bookmark Added", Toast.LENGTH_SHORT).show();
 
                 myRef.removeEventListener(this);
@@ -154,6 +169,7 @@ public class RequestShortDetailsAdapter extends RecyclerView.Adapter<RequestShor
                 // Failed to read value
             }
         });
+        return no_views+1;
     }
 
     private void removeFromBookmarks(final String id) {

@@ -52,17 +52,21 @@
             android:textColorHint="@color/colorHint"
             android:background="@drawable/blue_background_edittext"
             android:textSize="14sp"
+            android:textColor="@color/colorBlueText"
             android:padding="@dimen/default_padding_edittext"
             android:hint="@string/tell_your_story"/>
+
         <EditText
             android:id="@+id/amount_required"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:inputType="number"
             android:fontFamily="@font/roboto_light"
             android:layout_marginBottom="40dp"
             android:textColorHint="@color/colorHint"
             android:background="@drawable/blue_background_edittext"
             android:textSize="14sp"
+            android:textColor="@color/colorBlueText"
             android:padding="@dimen/default_padding_edittext"
             android:hint="@string/amount_required"/>
 
@@ -75,10 +79,25 @@
             android:layout_marginBottom="40dp"
             android:inputType="number"
             android:textColorHint="@color/colorHint"
+            android:textColor="@color/colorBlueText"
             android:background="@drawable/blue_background_edittext"
             android:textSize="14sp"
             android:padding="@dimen/default_padding_edittext"
             android:hint="@string/days_left"/>
+
+
+        <EditText
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_light"
+            android:layout_marginBottom="40dp"
+            android:textColorHint="@color/colorHint"
+            android:textColor="@color/colorBlueText"
+            android:background="@drawable/blue_background_edittext"
+            android:textSize="14sp"
+            android:padding="@dimen/default_padding_edittext"
+            android:hint="@string/enter_your_location"/>
 
 
 

@@ -13,7 +13,7 @@ import com.seproject.crowdfunder.models.Request;
 import com.seproject.crowdfunder.ui.DetailRequest;
 
 import java.util.List;
-
+/** Ratan - 17CO211 */
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHolder> {
 
     private List<Request> list;
@@ -56,7 +56,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         holder.title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, DetailRequest.class).putExtra("rid",list.get(position).getRequest_id()));
+                context.startActivity(new Intent(context, DetailRequest.class).putExtra("request_id",list.get(position).getRequest_id()));
             }
         });
         //holder.amount.setText(request.getAmount());

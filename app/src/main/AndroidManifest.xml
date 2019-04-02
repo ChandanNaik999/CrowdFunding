@@ -20,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.Chandan_Bookmark"></activity>
+        <activity android:name=".ui.Wallet"></activity>
+        <activity android:name=".ui.Chandan_Bookmark" />
         <activity android:name=".ui.ResetActivity" />
         <activity android:name=".ui.ActivityThanks" />
         <activity android:name=".ui.ChoosePublicPrivate" />
@@ -28,6 +29,8 @@
         <activity android:name=".ui.Chat" />
         <activity android:name=".ui.LocationInput" />
         <activity android:name=".ui.RequestActivity" />
+        <activity android:name=".fragment.Notification" />
+        <activity android:name=".Register" />
         <activity android:name=".ui.ExploreActivity" /> <!-- <activity -->
         <!-- android:name=".LoginActivity2" -->
         <!-- android:label="@string/title_activity_login2" /> -->

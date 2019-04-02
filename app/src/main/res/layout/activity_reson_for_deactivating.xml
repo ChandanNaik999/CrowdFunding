@@ -30,35 +30,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="reason1" />
+            android:text="This app has satisfied my needs" />
 
         <RadioButton
             android:id="@+id/radioButton2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="reason2"/>
+            android:text="I didnot like the experience"/>
 
         <RadioButton
             android:id="@+id/radioButton3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="reason3" />
+            android:text="The appp is not verstile enough" />
 
         <RadioButton
             android:id="@+id/radioButton4"
             android:layout_width="84dp"
             android:layout_height="32dp"
             android:layout_marginTop="24dp"
-            android:text="reason4" />
+            android:text="The app is buggy(unusable)" />
 
         <RadioButton
             android:id="@+id/radioButton5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="reason5" />
+            android:text="Other reason" />
     </RadioGroup>
 
     <Button

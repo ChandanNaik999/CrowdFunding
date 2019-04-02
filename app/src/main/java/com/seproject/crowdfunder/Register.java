@@ -20,7 +20,7 @@ import com.firebase.client.Firebase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
+/** Kaushikq  - 17CO131 */
 public class Register extends AppCompatActivity {
     EditText username, password;
     Button registerButton;
@@ -77,7 +77,7 @@ public class Register extends AppCompatActivity {
                                 StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
                                     @Override
                                     public void onResponse(String s) {
-                                        Firebase reference = new Firebase("https://android-chat-app-e711d.firebaseio.com/users");
+                                        Firebase reference = new Firebase("https://crowdfunder-a2499.firebaseio.com/sub/users");
 
                                         if(s.equals("null")) {
                                             reference.child(user).child("password").setValue(pass);

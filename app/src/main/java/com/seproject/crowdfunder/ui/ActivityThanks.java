@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.seproject.crowdfunder.R;
-
+/**  Ratan - 17CO211 */
 public class ActivityThanks extends AppCompatActivity {
 
     @Override

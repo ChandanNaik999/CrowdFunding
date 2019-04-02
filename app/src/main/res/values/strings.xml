@@ -76,4 +76,7 @@
     <string name="your_bookmarks">Your Bookmarks</string>
     <string name="title_activity_login2">Sign in</string>
     <string name="days_left">days left</string>
+    <string name="enter_your_location">Enter your location</string>
+    <string name="description">description</string>
+    <string name="wallet">Wallet</string>
 </resources>

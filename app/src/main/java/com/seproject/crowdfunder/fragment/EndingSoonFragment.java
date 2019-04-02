@@ -28,19 +28,45 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import static com.seproject.crowdfunder.Utils.util.getLocation;
+import static com.seproject.crowdfunder.Utils.util.requests;
+/** Chandan - 17CO212 */
 public class EndingSoonFragment extends Fragment {
     RecyclerView recyclerViewList;
     private List<RequestShortDetails> requestShortDetails = new ArrayList<>();
     RequestShortDetails requestShortDetailsFromdatabase;
     public static RequestShortDetailsAdapter adapter;
-    public static ArrayList<Request> requests = new ArrayList<>();
     FirebaseDatabase database;
     int no_of_requests = 0;
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         database = FirebaseDatabase.getInstance();
-        prepareRequestList();
+        //prepareRequestList();
+
+        requests.sort(new Comparator<Request>() {
+            @Override
+            public int compare(Request o1, Request o2) {
+                if(o1.getDays_left() == o2.getDays_left())
+                    return 0;
+                else if(o1.getDays_left() > o2.getDays_left())
+                    return 1;
+                else
+                    return -1;
+            }
+        });
+
+        requestShortDetails.clear();
+        for (Request request: requests){
+            RequestShortDetails requestShortDetail= new RequestShortDetails(request.getRequest_id()+""
+                    ,request.getTitle(), R.mipmap.ic_launcher_round, request.getUser_name()
+                    , request.getLocation(), 1, request.isBookmarked(), (int)request.getAmount_required()
+                    ,request.getBackers(),request.getDays_left()
+                    , (int)(request.getAmount_funded()  *100 /request.getAmount_required())
+                    ,request.getViews());
+            requestShortDetails.add(requestShortDetail);
+        }
 
         recyclerViewList =  view.findViewById(R.id.list);
         adapter= new RequestShortDetailsAdapter(getContext(), requestShortDetails);
@@ -66,6 +92,9 @@ public class EndingSoonFragment extends Fragment {
     public void prepareRequestList() {
 
         requestShortDetailsFromdatabase = new RequestShortDetails();
+
+
+
         final ArrayList<Request> list = new ArrayList<>();
         final DatabaseReference myRef = database.getReference(util.path_base_path + util.path_requests);
         final DatabaseReference myRef1 = database.getReference(util.path_base_path + util.path_user);

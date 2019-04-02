@@ -1,5 +1,6 @@
 package com.seproject.crowdfunder.models;
 
+/**  Chandan - 17CO212 */
 public class DonationDetail {
     String uid;
     int request_id;

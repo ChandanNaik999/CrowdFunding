@@ -2,6 +2,8 @@ package com.seproject.crowdfunder.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.widget.Toast;
 
 import com.seproject.crowdfunder.models.DistanceRequest;
@@ -9,8 +11,10 @@ import com.seproject.crowdfunder.models.Request;
 import com.seproject.crowdfunder.models.RequestShortDetails;
 import com.seproject.crowdfunder.models.User;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class util {
@@ -32,6 +36,7 @@ public class util {
     static public String path_no_of_bookmarks = "no_of_bookmarks/";
     static public String path_user = "user/";
     static public String path_no_of_requests = "no_of_requests";
+    static public String path_no_of_donations = "no_of_donations";
     static public String path_requests = "request/";
     static public String path_donations = "donations/";
     static public String path_profile_pic = "profile/";
@@ -55,12 +60,15 @@ public class util {
     static public Request request = new Request();
     static public RequestShortDetails requestShortDetails = new RequestShortDetails();
     public static int no_of_requests;
+    public static int no_of_donations;
 
 
 
     static public ArrayList<DistanceRequest> distanceRequestArrayList = new ArrayList<>();
+    static public  List<RequestShortDetails> requestShortDetailsList = new ArrayList<>();
     static public List<Request> requestsNearYou = new ArrayList<>();
-//    static public RequestShortDetails requestShortDetails = new RequestShortDetails();
+    public static ArrayList<Request> requests = new ArrayList<>();
+    public static ArrayList<String> bookmarks = new ArrayList<>();
 
 
     static public void writeIntoSharedPref(Context context, String sharedPrefFilename, String key, String value, int mode){
@@ -107,6 +115,23 @@ public class util {
         double tt = Math.acos(t1 + t2 + t3);
 
         return 6366 * tt;
+    }
+
+    public static String getLocation(Context context, double latitude, double longitude) {
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(context, Locale.getDefault());
+
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            return addresses.get(0).getLocality();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "NA";
+
     }
 
 }

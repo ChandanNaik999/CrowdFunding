@@ -7,8 +7,12 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.seproject.crowdfunder.R;
-
+import com.seproject.crowdfunder.Utils.util;
+import com.seproject.crowdfunder.models.ContactModel;
+/**  Arjun S 17CO209 */
 public class ContactUs extends AppCompatActivity {
 
     private EditText mEmailView;
@@ -75,7 +79,13 @@ public class ContactUs extends AppCompatActivity {
         if (cancel) {
             focusView.requestFocus();
         } else {
-
+            ContactModel contactModel = new ContactModel();
+            contactModel.setEmail(mEmailView.getText().toString().trim());
+            contactModel.setName(name.getText().toString().trim());
+            contactModel.setPhone(phone.getText().toString().trim());
+            contactModel.setMessage(message.getText().toString().trim());
+            DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference(util.path_base_path + "contact/" + util.user.getUid() );
+            myRef1.setValue(contactModel);
         }
     }
 

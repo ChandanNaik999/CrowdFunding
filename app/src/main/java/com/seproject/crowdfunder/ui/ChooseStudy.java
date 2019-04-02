@@ -8,7 +8,7 @@ import android.widget.Spinner;
 
 import com.seproject.crowdfunder.R;
 import com.seproject.crowdfunder.Utils.util;
-
+/**  Mahesh Babu - 17CO216 */
 public class ChooseStudy extends AppCompatActivity {
 
 

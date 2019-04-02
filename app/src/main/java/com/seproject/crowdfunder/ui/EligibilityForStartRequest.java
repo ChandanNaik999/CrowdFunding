@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.seproject.crowdfunder.R;
-
+/**   Mahesh - 17CO216 */
 public class EligibilityForStartRequest extends AppCompatActivity {
 
 
@@ -22,42 +22,17 @@ public class EligibilityForStartRequest extends AppCompatActivity {
         setContentView(R.layout.activity_mahesh__elgibility);
         checkBox1 = findViewById(R.id.checkBox1);
         checkBox2 = findViewById(R.id.checkBox2);
-        editText = findViewById(R.id.countryName);
-
-
-        checkBox1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(editText.getText().toString().length() == 0)
-                    Toast.makeText(EligibilityForStartRequest.this, "Country Name Invalid", Toast.LENGTH_SHORT).show();
-                    checkBox1.setActivated(false);
-            }
-        });
-
-        checkBox2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(editText.getText().toString().length() == 0)
-                    Toast.makeText(EligibilityForStartRequest.this, "Country Name Invalid", Toast.LENGTH_SHORT).show();
-                    checkBox2.setActivated(false);
-            }
-        });
 
     }
 
     public void goToFillDetail(View view) {
-        if(editText.getText().toString().length() == 0)
-            Toast.makeText(EligibilityForStartRequest.this, "Country Name Invalid", Toast.LENGTH_SHORT).show();
-        else{
-
-            if(checkBox2.isChecked() && checkBox1.isChecked()){
-                startActivity(new Intent(this, FillDetailsPageForStartingReqest.class));
-                finish();
-            }
-            else
-                Toast.makeText(EligibilityForStartRequest.this, "Accept the requirements", Toast.LENGTH_SHORT).show();
+        if(checkBox2.isChecked() && checkBox1.isChecked()){
+            startActivity(new Intent(this, FillDetailsPageForStartingReqest.class));
+            finish();
+        }
+        else
+            Toast.makeText(EligibilityForStartRequest.this, "Accept the requirements", Toast.LENGTH_SHORT).show();
 
         }
 
-    }
 }

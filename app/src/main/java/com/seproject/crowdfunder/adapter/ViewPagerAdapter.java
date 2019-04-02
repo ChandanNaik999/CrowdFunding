@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.seproject.crowdfunder.fragment.EndingSoonFragment;
 import com.seproject.crowdfunder.fragment.NearYouFragment;
 import com.seproject.crowdfunder.fragment.TrendingFragment;
-
+/** Chandan - 17CO212 */
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     public ViewPagerAdapter(FragmentManager fm) {

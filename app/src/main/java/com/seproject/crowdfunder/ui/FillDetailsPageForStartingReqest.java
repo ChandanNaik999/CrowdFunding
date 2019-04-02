@@ -3,8 +3,11 @@ package com.seproject.crowdfunder.ui;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -17,13 +20,17 @@ import android.widget.Toast;
 
 import com.seproject.crowdfunder.R;
 import com.seproject.crowdfunder.Utils.GPSTracker;
+import com.seproject.crowdfunder.Utils.GeocodingLocation;
 import com.seproject.crowdfunder.Utils.util;
+import com.seproject.crowdfunder.models.MyLocation;
 
 import java.util.Calendar;
 
+import static com.seproject.crowdfunder.Utils.util.getLocation;
+/**  Mahesh - 17CO216 */
 public class FillDetailsPageForStartingReqest extends AppCompatActivity {
     int flag = 0;
-    EditText title, desc, amount_required,days;
+    EditText title, desc, amount_required,days, location;
     TextView date;
     private DatePicker datePicker;
     private Calendar calendar;
@@ -60,6 +67,7 @@ public class FillDetailsPageForStartingReqest extends AppCompatActivity {
         amount_required = findViewById(R.id.amount_required);
         date = findViewById(R.id.date);
         days = findViewById(R.id.days_left);
+        location = findViewById(R.id.location);
 
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -89,16 +97,40 @@ public class FillDetailsPageForStartingReqest extends AppCompatActivity {
 
         switch (flag){
             case 0:
+                String address = location.getText().toString();
+                if (address.length() == 0){
+                    util.request.setLon((float)yourLocation.getLongitude());
+                    util.request.setLat((float)yourLocation.getLatitude());
+                    util.request.setLocation(getLocation(this,yourLocation.getLatitude(), yourLocation.getLongitude()));
+                }
+                else{
+                    GeocodingLocation locationAddress = new GeocodingLocation();
+                    MyLocation myLocation = GeocodingLocation.getAddressFromLocation(address,
+                            getApplicationContext());
+                    assert myLocation != null;
+                    util.request.setLon((float)myLocation.getLon());
+                    util.request.setLat((float)myLocation.getLat());
+                    util.request.setLocation(location.getText().toString());
+                }
                 util.request.setTitle(title.getText().toString());
                 util.request.setDesc(desc.getText().toString());
                 util.request.setAmount_required(Float.parseFloat(amount_required.getText().toString()));
                 util.request.setStart_date(day+"/"+month+"/"+year);
-                util.request.setLon((float)yourLocation.getLongitude());
-                util.request.setLat((float)yourLocation.getLatitude());
+                String name = util.readFromSharedPreferencesString(this
+                        , util.SHARED_PREFERNCES_USER_DETAILS
+                        , util.SHARED_PREFERNCES_USER_DETAILS_NAME, 0);
+
+                if(name.length() == 0)
+                    util.request.setUser_name("Anonymous");
+                else
+                    util.request.setUser_name(name);
                 util.request.setUid(util.user.getUid());
                 util.request.setViews(0);
                 util.request.setDays_left(Integer.parseInt(days.getText().toString()));
-                util.request.setUser_name(util.user.getName());
+                //util.request.setUser_name(util.user.getName());
+
+
+
                 startActivity(new Intent(this, DocumentUpload.class));
                 finish();
                 break;
@@ -180,6 +212,22 @@ public class FillDetailsPageForStartingReqest extends AppCompatActivity {
         double tt = Math.acos(t1 + t2 + t3);
 
         return 6366 * tt;
+    }
+
+    private class GeocoderHandler extends Handler {
+        @Override
+        public void handleMessage(Message message) {
+            String locationAddress;
+            switch (message.what) {
+                case 1:
+                    Bundle bundle = message.getData();
+                    locationAddress = bundle.getString("address");
+                    break;
+                default:
+                    locationAddress = null;
+            }
+            //latLongTV.setText(locationAddress);
+        }
     }
 
 

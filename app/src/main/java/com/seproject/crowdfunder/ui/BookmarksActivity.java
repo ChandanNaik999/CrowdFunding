@@ -19,13 +19,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.seproject.crowdfunder.R;
 import com.seproject.crowdfunder.Utils.FirebaseMethods;
 import com.seproject.crowdfunder.Utils.util;
+import com.seproject.crowdfunder.adapter.BookmarksAdapter;
 import com.seproject.crowdfunder.adapter.RequestShortDetailsAdapter;
 import com.seproject.crowdfunder.models.Request;
 import com.seproject.crowdfunder.models.RequestShortDetails;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**  Chandan - 17CO212 */
 public class BookmarksActivity extends AppCompatActivity {
 
     private static final String TAG = "Bookmark";
@@ -34,7 +35,7 @@ public class BookmarksActivity extends AppCompatActivity {
     RecyclerView recyclerViewList;
     private List<RequestShortDetails> requestShortDetails = new ArrayList<>();
     RequestShortDetails requestShortDetailsFromdatabase;
-    RequestShortDetailsAdapter adapter;
+    BookmarksAdapter adapter;
     DatabaseReference myRef;
     FirebaseDatabase database;
 
@@ -46,7 +47,7 @@ public class BookmarksActivity extends AppCompatActivity {
         bookmarks.clear();
 
         recyclerViewList =  findViewById(R.id.list);
-        adapter= new RequestShortDetailsAdapter(this, requestShortDetails);
+        adapter= new BookmarksAdapter(this, requestShortDetails);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerViewList.setLayoutManager(mLayoutManager);
         recyclerViewList.setItemAnimator(new DefaultItemAnimator());

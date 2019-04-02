@@ -20,6 +20,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.seproject.crowdfunder.R;
 import com.seproject.crowdfunder.Utils.util;
 
+import java.util.Objects;
+/**  Ratan  - 17CO211 */
 public class ConfirmingPassword extends AppCompatActivity {
 
     private static final String TAG = "Confirming Password";
@@ -35,29 +37,50 @@ public class ConfirmingPassword extends AppCompatActivity {
         String email =util.readFromSharedPreferencesString(this, util.SHARED_PREFERNCES_USER_DETAILS, util.SHARED_PREFERNCES_USER_DETAILS_EMAIL,0);
 
 
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        assert email != null;
-//        AuthCredential credential = EmailAuthProvider
-//                .getCredential(email, password.getText().toString());
-//
-//        // Prompt the user to re-provide their sign-in credentials
-//        assert user != null;
-//        user.reauthenticate(credential)
-//                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        Log.d(TAG, "User re-authenticated.");
-//                        startActivity(new Intent(ConfirmingPassword.this, ResonForDeactivating.class));
-//                        finish();
-//                    }
-//                });
+        password.setError(null);
 
-        startActivity(new Intent(ConfirmingPassword.this, ResonForDeactivating.class));
 
-//        if(password.getText().toString().matches("abcd"))
-//            startActivity(new Intent(this, ResonForDeactivating.class));
-//        else
-//            Toast.makeText(this, "Wrong Password ", Toast.LENGTH_SHORT).show();
+        // Store values at the time of the login attempt.
+        String pass = password.getText().toString();
+
+        boolean cancel = false;
+        View focusView = null;
+
+        // Check for a valid name, if the user entered one.
+        if (TextUtils.isEmpty(pass) || !isPasswordValid(pass) || pass.length() <= 8) {
+            password.setError(getString(R.string.error_invalid_password));
+            focusView = password;
+            cancel = true;
+        }
+
+        if (cancel) {
+            focusView.requestFocus();
+        } else {
+
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            assert email != null;
+            assert user != null;
+            AuthCredential credential = EmailAuthProvider
+                    .getCredential(Objects.requireNonNull(user.getEmail()), password.getText().toString());
+
+            // Prompt the user to re-provide their sign-in credentials
+            user.reauthenticate(credential)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                            if(task.isSuccessful()){
+                                Log.d(TAG, "User re-authenticated.");
+                                startActivity(new Intent(ConfirmingPassword.this, ResonForDeactivating.class));
+                                finish();
+                            } else {
+                                password.setError("Invalid password");
+                            }
+
+                        }
+                    });
+        }
+
     }
 
     private void attemptLogin() {

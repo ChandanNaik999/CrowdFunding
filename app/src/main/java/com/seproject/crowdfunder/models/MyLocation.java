@@ -1,6 +1,6 @@
 package com.seproject.crowdfunder.models;
-
-class MyLocation {
+/**   Kaushiq - 17CO131 */
+public class MyLocation {
     float lat, lon;
 
     public MyLocation(float lat, float lon) {

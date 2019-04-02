@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.seproject.crowdfunder.R;
-
 public class ResetActivity extends AppCompatActivity {
 
     @Override

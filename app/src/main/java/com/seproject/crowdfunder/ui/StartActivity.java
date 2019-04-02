@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.seproject.crowdfunder.R;
+/**Nuthan Abhishek - 17CO153*/
 
 public class StartActivity extends AppCompatActivity {
 
