@@ -1,11 +1,9 @@
-# Crowdfunder
-A Crowdfunding app for the students
+#FunderHub
+This is an android application that allows students to start campaigns for their school/college projects and the other users can donate to the campaign.
 
-Team Members: 
-1. Adarsh 
-2. Ratan
-3. Mahesh
-4. Chandan
-5. Kaushiq
-6. Abhishek
-7. Arjun
+<h2> Screenshots </h2>
+
+<img src = "/1.png" width = "200">   <img src = "/2.png" width = "200">   <img src = "/3.png" width = "200">   <img src = "/4.png" width = "200">
+
+
+
